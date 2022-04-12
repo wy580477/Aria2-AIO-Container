@@ -4,7 +4,7 @@ services:
     image: ghcr.io/wy580477/aria2-aio-container:latest
     container_name: allinone
     network_mode: host
-    # host模式配置方便，性能好问题少，如果host上没有其他敏感服务，建议使用host模式。
+    # host模式配置方便，不容易出问题。如果追求更安全，则需要配置bridge模式映射端口。
     logging:
       driver: "journald"
       # 个人偏好journald自动管理日志，journalctl查询起来也方便。     
@@ -25,14 +25,36 @@ services:
       # 默认值internal为使用caddy自签证书。
       - WEB_PORT=8080
       # 提供Web服务的端口，如果要关闭caddy自动https功能，需设置为非443端口。
+      - LANGUAGE=chs
+      # 设置导航页和Filebrowser界面语言为中文，可选en（英文）。
       - PORTAL_PATH=/portal
       # 基础URL，后面不能加/。建议设置为不常见的字符串，防止字典爆破攻击。
       # 不需要基础URL的话，设置为空值，不能设置为/。
-      - LANGUAGE=chs
-      # 设置导航页和Filebrowser界面语言为中文，可选en（英文）。
+      - PUID=0
+      - PGID=0
+      # 设置用户uid和gid，如需以非特权用户运行容器内进程，设置为1000以上即可，注意data目录下如果之前有子目录，权限需要手动设置。
+      - ARIA_IPV6=false
+      # Aria2下载ipv6开关，不影响其他进程使用ipv6网络。
+      - BT_PORT=51413
+      # Aria2 BT下载使用的端口，建议在防火墙设置中tcp和udp流量都放行，以提高下载速度。
       - POST_MODE=move_remote
-      # Aria2自动化模式，move_remote模式为下载做种完成后先移动到本地data数据卷下finished目录，然后移动到rclone远程存储。
-      # copy_remote_first模式为下载完成后立即复制到rclone原创存储，BT任务在做种前即触发。更多模式见详细部署指南。
+      # Aria2自动化模式，dummy模式为无操作，move模式为下载及做种完成后移动到本地finished目录。
+      # move_remote模式为下载及做种完成后先移动到本地data数据卷下finished目录，然后移动到rclone远程存储。
+      # move_remote_only模式为下载及做种完成后移动到rclone原创存储。
+      # copy_remote_first模式为下载完成后立即复制到rclone原创存储，BT任务在做种前即触发。
+      # copy_remote模式为下载及做种完成后先移动到本地data数据卷下finished目录，然后复制到rclone远程存储。
+      # custom模式为自行设置aria2配置文件触发脚本选项。
+      - DRIVE_NAME=auto
+      # Rclone远程存储配置名称，默认值auto会从rclone.conf文件第一行中提取远程存储配置名称。
+      - DRIVE_DIR=/upload
+      # Rclone上传目录
+      - RCLONE_TRANSFERS=4
+      # Rclone单任务并发传输数量，默认值4适合512M内存低配host，高配置host可量力而行适当提高。
+      - CLEAN_UNFINISHED_FAILED_TASK_FILES=true
+      # 删除失败和在下载完成之前移除的任务文件。
+      - AUTO_DELETE_UNWANTED=true
+      # 四种清理文件功能的主开关：.torrent、.aria2、空文件夹、自定义过滤文件。
+      # 每种功能可以在config/aria2/script.conf文件中独立设置。
     restart: unless-stopped
     volumes:
       - ~/data:/mnt/data
