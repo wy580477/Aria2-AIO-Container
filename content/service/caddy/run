@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Dummy run for building image
+if [ "${MODE}" = "build" ]; then
+  sleep infinity
+fi
+
+# Unzip homer & AriaNG & RcloneWebUI
+if [ ! -d "/.aria2allinoneworkdir/homer" ]; then
+  unzip -d /.aria2allinoneworkdir/homer /.aria2allinoneworkdir/homer.zip 1>/dev/null
+  rm -rf /.aria2allinoneworkdir/homer.zip
+  unzip -d /.aria2allinoneworkdir/ariang /.aria2allinoneworkdir/AriaNg-1.2.3.zip 1>/dev/null
+  sed -i 's|6800|'"${WEB_PORT}"'|g' /.aria2allinoneworkdir/ariang/js/aria-ng-f1dd57abb9.min.js
+  if [ -z "${PORTAL_PATH}" ]; then
+    sed -i 's|rpcInterface:"jsonrpc"|rpcInterface:"'"${PORTAL_PATH}"'jsonrpc"|g' /.aria2allinoneworkdir/ariang/js/aria-ng-f1dd57abb9.min.js
+  else
+    sed -i 's|rpcInterface:"jsonrpc"|rpcInterface:"'"${PORTAL_PATH/\//}"'/jsonrpc"|g' /.aria2allinoneworkdir/ariang/js/aria-ng-f1dd57abb9.min.js
+  fi
+  rm -rf /.aria2allinoneworkdir/AriaNg-1.2.3.zip
+  unzip -d /.aria2allinoneworkdir/rcloneweb /.aria2allinoneworkdir/currentbuild.zip 1>/dev/null
+  sed -i 's|ipAddress:a|ipAddress:`${window.location.protocol}//${window.location.hostname}:'"${WEB_PORT}"''"${PORTAL_PATH}"'/rclonerc`|g' /.aria2allinoneworkdir/rcloneweb/build/static/js/3.90421092.chunk.js
+  rm -rf /.aria2allinoneworkdir/currentbuild.zip
+fi
+
+# Configure homer
+if [ ! -d "/mnt/config/homer" ]; then
+  mkdir -p /mnt/config/homer
+  cp /.aria2allinoneworkdir/homer_conf/* /mnt/config/homer/
+fi
+
+cp /mnt/config/homer/* /.aria2allinoneworkdir/homer/assets/tools/
+cp /mnt/config/homer/homer_${LANGUAGE}.yml /.aria2allinoneworkdir/homer/assets/config.yml
+sed -i "s|PORTAL_PATH|${PORTAL_PATH}|g" /.aria2allinoneworkdir/homer/assets/config.yml
+
+# Run language script
+/.aria2allinoneworkdir/caddy_init_${LANGUAGE}.sh
+
+# Configure Caddyfile
+if [ ! -f "/mnt/config/caddy/Caddyfile" ]; then
+  mkdir -p /mnt/config/caddy
+  cp /.aria2allinoneworkdir/Caddyfile_template /mnt/config/caddy/Caddyfile
+fi
+
+cp /mnt/config/caddy/Caddyfile /.aria2allinoneworkdir/Caddyfile
+HASH="$(caddy hash-password --plaintext ${PASSWORD})"
+sed -i "s|DOMAIN|${DOMAIN}|g;s|WEB_PORT|${WEB_PORT}|g;s|USER|${USER}|g;s|HASH|${HASH}|g;s|EMAIL|${EMAIL}|g;s|PORTAL_PATH|${PORTAL_PATH}|g" /.aria2allinoneworkdir/Caddyfile
+
+# Run caddy
+exec 2>&1
+exec caddy run --config /.aria2allinoneworkdir/Caddyfile --adapter caddyfile

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+# Dummy run for building image
+if [ "${MODE}" = "build" ]; then
+    sleep infinity
+fi
+
+# Configure filebrowser
+if [ ! -f "/mnt/config/filebrowser.db" ]; then
+    filebrowser -d /mnt/config/filebrowser.db config init -r /mnt
+    filebrowser -d /mnt/config/filebrowser.db users add ${USER} ${PASSWORD} --commands="sv,aria2c,rclone,du,df,free,ping,nslookup,netstat,top,ps"
+    if [ "${LANGUAGE}" = "chs" ]; then
+        filebrowser -d /mnt/config/filebrowser.db users update ${USER} --locale zh-cn
+    fi
+else
+    filebrowser -d /mnt/config/filebrowser.db users add ${USER} ${PASSWORD} --commands="sv,aria2c,rclone,du,df,free,ping,nslookup,netstat,top,ps"
+    filebrowser -d /mnt/config/filebrowser.db users update ${USER} -p ${PASSWORD}
+fi
+
+# Run filebrowser
+exec 2>&1
+exec filebrowser -d /mnt/config/filebrowser.db -b ${PORTAL_PATH}/files -p 56801
