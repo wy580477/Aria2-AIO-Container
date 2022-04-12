@@ -10,8 +10,9 @@
 ![网页捕获_12-4-2022_14495](https://user-images.githubusercontent.com/98247050/162898222-d10f2269-70af-4a8f-97ec-c48818741e44.jpeg)
  
  1. 开箱即用，只需要准备rclone.conf配置文件, 容器一切配置都预备齐全。
- 2. 由caddy反代所有web服务和远程控制路径，均有密码保护，可自定义基础URL防爆破，并可使用caddy的自动https功能。
- 3. 可自定义内容导航页，显示当前容器运行信息。
+ 2. AMD64/i386/Arm64/Armv7多架构支持。
+ 3. 由caddy反代所有web服务和远程控制路径，均有密码保护，可自定义基础URL防爆破，并可使用caddy的自动https功能。
+ 4. 可自定义内容导航页，显示当前容器运行信息。
  5. Aria2和Rclone多种联动模式，有BT下载完成做种前立即开始上传功能，适合有长时间做种需求的用户。
  6. Rclone以daemon方式运行，可实时在WebUI上监测传输情况。
  7. 基于 [runit](http://smarden.org/runit/index.html) 的进程管理，每个进程可以独立启停，互不影响。
