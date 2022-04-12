@@ -32,8 +32,8 @@ RUN apk add --no-cache --virtual .build-deps curl caddy jq aria2 bash findutils 
 VOLUME /mnt/data /mnt/config
 
 LABEL org.opencontainers.image.authors="wy580477@outlook.com"
-LABEL org.label-schema.name="Aria2-Filebrowser-Rclone-container"
-LABEL org.label-schema.description="All-in-One Aria2 container with automatic uploading to Rclone remote"
-LABEL org.label-schema.vcs-url="https://github.com/wy580477/Aria2-Filebrowser-Rclone-container"
+LABEL org.label-schema.name="Aria2-AIO-Container"
+LABEL org.label-schema.description="Aria2 container with Rclone auto-upload function & more"
+LABEL org.label-schema.vcs-url="https://github.com/wy580477/Aria2-AIO-Container/"
 
 ENTRYPOINT ["sh","-c","/.aria2allinoneworkdir/entrypoint.sh"]

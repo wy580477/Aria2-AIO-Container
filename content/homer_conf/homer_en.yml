@@ -52,8 +52,8 @@ message:
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
 links:
-  - name: "Aria2-Filebrowser-Rclone-container"
-    url: "https://github.com/wy580477/Aria2-Filebrowser-Rclone-container/"
+  - name: "Aria2-AIO-Container"
+    url: "https://github.com/wy580477/Aria2-AIO-Container/"
   - name: "Google"
     url: "https://www.google.com/"
   - name: "Youtube"
