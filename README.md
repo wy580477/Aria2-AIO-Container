@@ -5,7 +5,7 @@
 
 ## 概述
 
-本容器集成了Aria2+Rclone+WebUI、Aria2+Rclone联动自动上传功能、可自定义的导航页、Filebrower轻量网盘。
+本容器集成了Aria2+Rclone+WebUI、Aria2+Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。
 
 ![网页捕获_12-4-2022_14495](https://user-images.githubusercontent.com/98247050/162898222-d10f2269-70af-4a8f-97ec-c48818741e44.jpeg)
  
