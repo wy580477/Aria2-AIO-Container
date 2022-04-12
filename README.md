@@ -18,6 +18,7 @@
  7. 基于 [runit](http://smarden.org/runit/index.html) 的进程管理，每个进程可以独立启停，互不影响。
  8. 所有配置集中于config数据卷，方便迁移。
  9. 支持PUID/GUID方式以非root用户运行容器内所有进程，rclone用户密码以htpasswd文件方式储存，Filebrowser初始用户为普通用户，不能自行添加可执行的命令。
+ 10. 功能多体积小，容器image不到130MB。
 
 ## 快速部署
  
