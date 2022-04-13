@@ -20,7 +20,6 @@ fi
 cp /mnt/config/aria2/aria2_${LANGUAGE}.conf /.aria2allinoneworkdir/aria2.conf
 sed -i "s|^rpc-secret=.*|rpc-secret=${PASSWORD}|g" /.aria2allinoneworkdir/aria2.conf
 sed -i "s|^drive-dir=.*|drive-dir=${DRIVE_DIR}|g" /mnt/config/aria2/script.conf
-mkdir -p /mnt/data/downloads
 
 if [ "${ARIA_IPV6}" = "true" ]; then
        sed -i "s|^disable-ipv6=.*|disable-ipv6=false|g" /.aria2allinoneworkdir/aria2.conf
