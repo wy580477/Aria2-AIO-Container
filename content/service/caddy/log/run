@@ -1,3 +1,5 @@
 #!/bin/sh
 
-exec svlogd /.aria2allinoneworkdir/.log/caddy
+mkdir -p /mnt/data/log/ 2>/dev/null
+cp -r /.aria2allinoneworkdir/log/caddy /mnt/data/log/
+exec svlogd -tt /mnt/log/caddy

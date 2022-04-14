@@ -1,3 +1,5 @@
 #!/bin/sh
 
-exec svlogd /.aria2allinoneworkdir/.log/filebrowser
+mkdir -p /mnt/data/log/ 2>/dev/null
+cp -r /.aria2allinoneworkdir/log/filebrowser /mnt/data/log/
+exec svlogd /mnt/log/filebrowser

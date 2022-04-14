@@ -43,7 +43,7 @@ fi
 
 cp /mnt/config/caddy/Caddyfile /.aria2allinoneworkdir/Caddyfile
 HASH="$(caddy hash-password --plaintext ${PASSWORD})"
-sed -i "s|DOMAIN|${DOMAIN}|g;s|WEB_PORT|${WEB_PORT}|g;s|USER|${USER}|g;s|HASH|${HASH}|g;s|EMAIL|${EMAIL}|g;s|PORTAL_PATH|${PORTAL_PATH}|g" /.aria2allinoneworkdir/Caddyfile
+sed -i "s|HASH|${HASH}|g" /.aria2allinoneworkdir/Caddyfile
 
 # Run caddy
 exec 2>&1

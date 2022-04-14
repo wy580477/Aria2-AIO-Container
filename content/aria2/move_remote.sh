@@ -105,11 +105,9 @@ UPLOAD_FILE() {
             echo
         )
         if [ -f "${LOCAL_PATH}" ]; then
-            mkdir -p /mnt/data/finished
             mv -vf "${LOCAL_PATH}" /mnt/data/finished/
             rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} operations/movefile srcFs=/mnt/data/finished srcRemote="${TASK_FILE_NAME}" dstFs="${REMOTE_PATH}" dstRemote="${TASK_FILE_NAME}" _async=true
         else
-            mkdir -p /mnt/data/finished
             mv -vf "${LOCAL_PATH}" /mnt/data/finished/
             rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} sync/move srcFs=/mnt/data/finished/"${TASK_FILE_NAME}" dstFs="${REMOTE_PATH}" _async=true
         fi   
