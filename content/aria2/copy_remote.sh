@@ -86,11 +86,11 @@ UPLOAD_FILE() {
         if [ -f "${LOCAL_PATH}" ]; then
             mkdir -p /mnt/data/finished 2>/dev/null
             mv -vf "${LOCAL_PATH}" /mnt/data/finished/
-            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished","srcRemote":"'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TASK_FILE_NAME}"'","_async":"true"}' '${RCLONE_ADDR}/operations/copyfile'
+            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished","srcRemote":"'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TASK_FILE_NAME}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/copyfile'
         else
             mkdir -p /mnt/data/finished 2>/dev/null
             mv -vf "${LOCAL_PATH}" /mnt/data/finished/            
-            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished/'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' '${RCLONE_ADDR}/sync/copy'
+            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished/'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/copy'
         fi   
         RCLONE_EXIT_CODE=$?
         if [ ${RCLONE_EXIT_CODE} -eq 0 ]; then
