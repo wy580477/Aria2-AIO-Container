@@ -54,15 +54,6 @@ else
        sed -i "s|^on-download-stop=/.aria2allinoneworkdir/aria2/.*.sh|on-download-stop=/.aria2allinoneworkdir/aria2/clean.sh|g" /.aria2allinoneworkdir/aria2.conf
 fi
 
-# Detect network mode
-ping -c 2 -W 2 rclone >/dev/null 2>&1
-
-if [[ $? != 0 ]]; then
-       RCLONE_ADDR='localhost:56802'
-else
-       RCLONE_ADDR='rclone:5572'
-fi
-
 # Run aria2
 exec 2>&1
 exec aria2c --conf-path="/.aria2allinoneworkdir/aria2.conf" \
