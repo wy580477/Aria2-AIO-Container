@@ -40,23 +40,6 @@ CHECK_CORE_FILE() {
     fi
 }
 
-CHECK_RCLONE() {
-    [[ $# -eq 0 ]] && {
-        echo && echo -e "Checking RCLONE connection ..."
-        rclone mkdir "${DRIVE_NAME}:${DRIVE_DIR}/P3TERX.COM"
-        if [[ $? -eq 0 ]]; then
-            rclone rmdir "${DRIVE_NAME}:${DRIVE_DIR}/P3TERX.COM"
-            echo
-            echo -e "${LIGHT_GREEN_FONT_PREFIX}success${FONT_COLOR_SUFFIX}"
-            exit 0
-        else
-            echo
-            echo -e "${RED_FONT_PREFIX}failure${FONT_COLOR_SUFFIX}"
-            exit 1
-        fi
-    }
-}
-
 TASK_INFO() {
     echo -e "
 -------------------------- [${YELLOW_FONT_PREFIX}Task Infomation${FONT_COLOR_SUFFIX}] --------------------------
@@ -130,7 +113,6 @@ UPLOAD_FILE() {
 
 CHECK_CORE_FILE "$@"
 CHECK_SCRIPT_CONF
-CHECK_RCLONE "$@"
 CHECK_FILE_NUM
 GET_TASK_INFO
 GET_INFO_HASH
