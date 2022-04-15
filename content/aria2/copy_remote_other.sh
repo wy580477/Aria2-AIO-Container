@@ -72,11 +72,6 @@ DEFINITION_PATH() {
     fi
 }
 
-LOAD_RCLONE_ENV() {
-    RCLONE_ENV_FILE="${ARIA2_CONF_DIR}/rclone.env"
-    [[ -f ${RCLONE_ENV_FILE} ]] && export $(grep -Ev "^#|^$" ${RCLONE_ENV_FILE} | xargs -0)
-}
-
 UPLOAD_FILE() {
     echo -e "$(DATE_TIME) ${INFO} Start upload files..."
     TASK_INFO
@@ -123,6 +118,5 @@ CLEAN_UP
 if GET_INFO_HASH; then
     exit 0
 fi
-LOAD_RCLONE_ENV
 UPLOAD_FILE
 exit 0
