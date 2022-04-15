@@ -11,6 +11,7 @@ ENV EMAIL=internal
 ENV WEB_PORT=8080
 ENV PUID=0
 ENV PGID=0
+ENV TZ=UTC
 ENV ARIA_IPV6=false
 ENV BT_PORT=51413
 ENV LANGUAGE=en
@@ -19,7 +20,7 @@ ENV POST_MODE=move
 ENV AUTO_DRIVE_NAME=true
 ENV CLEAN_UNFINISHED_FAILED_TASK_FILES=true
 
-RUN apk add --no-cache curl caddy jq aria2 bash findutils runit rclone su-exec \
+RUN apk add --no-cache curl caddy jq aria2 bash findutils runit rclone su-exec tzdata \
     && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.3/AriaNg-1.2.3.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/rclone/rclone-webui-react/releases/latest/download/currentbuild.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip \
