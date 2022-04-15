@@ -2,6 +2,10 @@ version: '3.4'
 x-global: &global
 # 全局设置
   environment: 
+    - USER=admin
+    # 用户名
+    - PASSWORD=password
+    # 务必设置为强密码
     - PUID=0
     - PGID=0
     # 设置用户uid和gid，如需以非特权用户运行容器内进程，设置为1000以上即可，注意data目录下如果之前有子目录，权限需要手动设置。
@@ -25,10 +29,6 @@ services:
     network_mode: host
     # host模式配置方便，不容易出问题。如果追求更安全，则需要配置bridge模式映射端口。
     environment: 
-      - USER=admin
-      # 用户名
-      - PASSWORD=password
-      # 务必设置为强密码
       - DOMAIN=
       # 域名设置为有效域名（可以解析到你的host）,并且80和443端口面向公网开放，就可启用caddy的自动申请证书开启https功能。
       # 设置为http://localhost，则监听本地回环地址提供http服务。
