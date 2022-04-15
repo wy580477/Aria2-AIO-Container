@@ -2,8 +2,8 @@
 #
 # https://github.com/P3TERX/aria2.conf
 # File name：copy_remote_first.sh
-
-# Description: Use Rclone to copy files to Rclone remote after Aria2 download is complete
+#
+# Description: Use Rclone to copy files to Rclone remote after Aria2 download is completed
 # Version: 3.1
 #
 # Copyright (c) 2018-2021 P3TERX <https://p3terx.com>
@@ -27,7 +27,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
+#
+# Modified by wy580477 for customized container <https://github.com/wy580477>
+#
 
 CHECK_CORE_FILE() {
     CORE_FILE="$(dirname $0)/core"
@@ -84,9 +86,9 @@ UPLOAD_FILE() {
             echo
         )
         if [ -f "${LOCAL_PATH}" ]; then
-            rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} operations/copyfile srcFs=/mnt/data/downloads srcRemote="${TASK_FILE_NAME}" dstFs="${REMOTE_PATH}" dstRemote="${TASK_FILE_NAME}" _async=true
+            curl -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/downloads","srcRemote":"'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TASK_FILE_NAME}"'"}' 'http://localhost:56802/operations/copyfile'
         else
-            rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} sync/copy srcFs="${LOCAL_PATH}" dstFs="${REMOTE_PATH}" _async=true
+            curl -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${LOCAL_PATH}"'","dstFs":"'"${REMOTE_PATH}"'"}' 'http://localhost:56802/sync/copy'
         fi   
         RCLONE_EXIT_CODE=$?
         if [ ${RCLONE_EXIT_CODE} -eq 0 ]; then
