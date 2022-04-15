@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [[ "${PUID}" = "0" ]] && [[ "${PGID}" = "0" ]]; then
-    chown -R /etc/service
+if [ "${PUID}" = "0" ]; then
+    chown -R ${PUID} /etc/service
     ln -s /.aria2allinoneworkdir/service/* /etc/service/ 2>/dev/null
     exec runsvdir -P /etc/service
 else
