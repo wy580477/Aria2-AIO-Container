@@ -29,11 +29,9 @@ else
        sed -i "s|^enable-dht6=.*|enable-dht6=false|g" /.aria2allinoneworkdir/aria2.conf
 fi
 
-if [ "${DRIVE_NAME}" = "auto" ]; then
+if [ "${AUTO_DRIVE_NAME}" = "true" ]; then
        DRIVE_NAME_AUTO="$(sed -n '1p' /mnt/config/rclone.conf | sed "s/\[//g" | sed "s/\]//g")"
        sed -i "s|^drive-name=.*|drive-name=${DRIVE_NAME_AUTO}|g" /mnt/config/aria2/script.conf
-else
-       sed -i "s|^drive-name=.*|drive-name=${DRIVE_NAME}|g" /mnt/config/aria2/script.conf
 fi
 
 if [ "${POST_MODE}" = "copy_remote_first" ]; then

@@ -16,11 +16,8 @@ ENV BT_PORT=51413
 ENV LANGUAGE=en
 ENV PORTAL_PATH=/portal
 ENV POST_MODE=copy_remote
-ENV DRIVE_NAME=auto
-ENV DRIVE_DIR=/upload
-ENV RCLONE_TRANSFERS=4
+ENV AUTO_DRIVE_NAME=true
 ENV CLEAN_UNFINISHED_FAILED_TASK_FILES=true
-ENV AUTO_DELETE_UNWANTED=true
 
 RUN apk add --no-cache --virtual .build-deps curl caddy jq aria2 bash findutils runit rclone su-exec apache2-utils \
     && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.3/AriaNg-1.2.3.zip \
