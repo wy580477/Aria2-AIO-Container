@@ -20,6 +20,7 @@ ENV POST_MODE=move
 ENV AUTO_DRIVE_NAME=true
 ENV CLEAN_UNFINISHED_FAILED_TASK_FILES=true
 ENV TZ=UTC
+ENV FILEBROWSER_ADMIN=false
 
 RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata \
     && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.3/AriaNg-1.2.3.zip \
