@@ -48,7 +48,7 @@ sv start filebrowser
 # 启动filebrowser服务
 ```        
  2. 删除config目录下filebrowser.db文件可重置filebrowser所有设置。
- 3. 无法通过Rclone Web UI设置需要网页认证的远程存储配置，建议在本地桌面系统上运行rclone config使用命令行配置或者rclone rcd使用Web UI网页配置。
+ 3. 无法通过Rclone Web UI远程设置需要网页认证的远程存储配置，建议在本地桌面系统上运行rclone config使用命令行配置或者rclone rcd使用Web UI网页配置。
  4. caddy如果频繁申请证书会被限制导致启动失败，所以如果使用自动https功能，config目录下caddy目录不要随意删除/移动。
  5. config/aria2目录下为Aria2相关配置文件，按语言变量选择版本进行修改。   
     script.conf为Aria2自动化配置文件，可以更改文件自动清理设置。   
