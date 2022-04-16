@@ -1,3 +1,4 @@
+# 仅支持v0.8.0版本
 version: '2.3'
 services:
   allinone:
