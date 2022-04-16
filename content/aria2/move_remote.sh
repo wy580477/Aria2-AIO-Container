@@ -39,23 +39,6 @@ CHECK_CORE_FILE() {
     fi
 }
 
-CHECK_RCLONE() {
-    [[ $# -eq 0 ]] && {
-        echo && echo -e "Checking RCLONE connection ..."
-        rclone mkdir "${DRIVE_NAME}:${DRIVE_DIR}/P3TERX.COM"
-        if [[ $? -eq 0 ]]; then
-            rclone rmdir "${DRIVE_NAME}:${DRIVE_DIR}/P3TERX.COM"
-            echo
-            echo -e "${LIGHT_GREEN_FONT_PREFIX}success${FONT_COLOR_SUFFIX}"
-            exit 0
-        else
-            echo
-            echo -e "${RED_FONT_PREFIX}failure${FONT_COLOR_SUFFIX}"
-            exit 1
-        fi
-    }
-}
-
 TASK_INFO() {
     echo -e "
 -------------------------- [${YELLOW_FONT_PREFIX}Task Infomation${FONT_COLOR_SUFFIX}] --------------------------
@@ -88,11 +71,6 @@ DEFINITION_PATH() {
     fi
 }
 
-LOAD_RCLONE_ENV() {
-    RCLONE_ENV_FILE="${ARIA2_CONF_DIR}/rclone.env"
-    [[ -f ${RCLONE_ENV_FILE} ]] && export $(grep -Ev "^#|^$" ${RCLONE_ENV_FILE} | xargs -0)
-}
-
 UPLOAD_FILE() {
     echo -e "$(DATE_TIME) ${INFO} Start upload files..."
     TASK_INFO
@@ -105,13 +83,13 @@ UPLOAD_FILE() {
             echo
         )
         if [ -f "${LOCAL_PATH}" ]; then
-            mkdir -p /mnt/data/finished
+            mkdir -p /mnt/data/finished 2>/dev/null
             mv -vf "${LOCAL_PATH}" /mnt/data/finished/
-            rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} operations/movefile srcFs=/mnt/data/finished srcRemote="${TASK_FILE_NAME}" dstFs="${REMOTE_PATH}" dstRemote="${TASK_FILE_NAME}" _async=true
+            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished","srcRemote":"'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TASK_FILE_NAME}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/movefile'
         else
-            mkdir -p /mnt/data/finished
+            mkdir -p /mnt/data/finished 2>/dev/null
             mv -vf "${LOCAL_PATH}" /mnt/data/finished/
-            rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} sync/move srcFs=/mnt/data/finished/"${TASK_FILE_NAME}" dstFs="${REMOTE_PATH}" _async=true
+            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished/'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/move'
         fi   
         RCLONE_EXIT_CODE=$?
         if [ ${RCLONE_EXIT_CODE} -eq 0 ]; then
@@ -133,13 +111,11 @@ UPLOAD_FILE() {
 
 CHECK_CORE_FILE "$@"
 CHECK_SCRIPT_CONF
-CHECK_RCLONE "$@"
 CHECK_FILE_NUM
 GET_TASK_INFO
 GET_DOWNLOAD_DIR
 CONVERSION_PATH
 DEFINITION_PATH
 CLEAN_UP
-LOAD_RCLONE_ENV
 UPLOAD_FILE
 exit 0

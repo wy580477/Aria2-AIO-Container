@@ -19,7 +19,6 @@ fi
 
 cp /mnt/config/aria2/aria2_${LANGUAGE}.conf /.aria2allinoneworkdir/aria2.conf
 sed -i "s|^rpc-secret=.*|rpc-secret=${PASSWORD}|g" /.aria2allinoneworkdir/aria2.conf
-sed -i "s|^drive-dir=.*|drive-dir=${DRIVE_DIR}|g" /mnt/config/aria2/script.conf
 
 if [ "${ARIA_IPV6}" = "true" ]; then
        sed -i "s|^disable-ipv6=.*|disable-ipv6=false|g" /.aria2allinoneworkdir/aria2.conf
@@ -29,11 +28,9 @@ else
        sed -i "s|^enable-dht6=.*|enable-dht6=false|g" /.aria2allinoneworkdir/aria2.conf
 fi
 
-if [ "${DRIVE_NAME}" = "auto" ]; then
+if [ "${AUTO_DRIVE_NAME}" = "true" ]; then
        DRIVE_NAME_AUTO="$(sed -n '1p' /mnt/config/rclone.conf | sed "s/\[//g" | sed "s/\]//g")"
        sed -i "s|^drive-name=.*|drive-name=${DRIVE_NAME_AUTO}|g" /mnt/config/aria2/script.conf
-else
-       sed -i "s|^drive-name=.*|drive-name=${DRIVE_NAME}|g" /mnt/config/aria2/script.conf
 fi
 
 if [ "${POST_MODE}" = "copy_remote_first" ]; then
@@ -49,8 +46,10 @@ else
        sed -i "s|^on-bt-download-complete=/.aria2allinoneworkdir/aria2/.*.sh|on-bt-download-complete=/.aria2allinoneworkdir/aria2/clean.sh|g" /.aria2allinoneworkdir/aria2.conf
 fi
 
-if [ "${CLEAN_UNFINISHED_FAILED_TASK_FILES}" = "true" ]; then
+if [[ "${CLEAN_UNFINISHED_FAILED_TASK_FILES}" = "true" ]] && [[ "${POST_MODE}" != "custom" ]]; then
        sed -i "s|^on-download-stop=/.aria2allinoneworkdir/aria2/.*.sh|on-download-stop=/.aria2allinoneworkdir/aria2/delete.sh|g" /.aria2allinoneworkdir/aria2.conf
+elif [ "${POST_MODE}" = "custom" ]; then
+       :
 else
        sed -i "s|^on-download-stop=/.aria2allinoneworkdir/aria2/.*.sh|on-download-stop=/.aria2allinoneworkdir/aria2/clean.sh|g" /.aria2allinoneworkdir/aria2.conf
 fi

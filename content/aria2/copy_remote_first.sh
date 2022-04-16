@@ -2,8 +2,8 @@
 #
 # https://github.com/P3TERX/aria2.conf
 # File name：copy_remote_first.sh
-
-# Description: Use Rclone to copy files to Rclone remote after Aria2 download is complete
+#
+# Description: Use Rclone to copy files to Rclone remote after Aria2 download is completed
 # Version: 3.1
 #
 # Copyright (c) 2018-2021 P3TERX <https://p3terx.com>
@@ -27,7 +27,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
+#
+# Modified by wy580477 for customized container <https://github.com/wy580477>
+#
 
 CHECK_CORE_FILE() {
     CORE_FILE="$(dirname $0)/core"
@@ -37,23 +39,6 @@ CHECK_CORE_FILE() {
         echo && echo "!!! core file does not exist !!!"
         exit 1
     fi
-}
-
-CHECK_RCLONE() {
-    [[ $# -eq 0 ]] && {
-        echo && echo -e "Checking RCLONE connection ..."
-        rclone mkdir "${DRIVE_NAME}:${DRIVE_DIR}/P3TERX.COM"
-        if [[ $? -eq 0 ]]; then
-            rclone rmdir "${DRIVE_NAME}:${DRIVE_DIR}/P3TERX.COM"
-            echo
-            echo -e "${LIGHT_GREEN_FONT_PREFIX}success${FONT_COLOR_SUFFIX}"
-            exit 0
-        else
-            echo
-            echo -e "${RED_FONT_PREFIX}failure${FONT_COLOR_SUFFIX}"
-            exit 1
-        fi
-    }
 }
 
 TASK_INFO() {
@@ -88,10 +73,6 @@ DEFINITION_PATH() {
     fi
 }
 
-LOAD_RCLONE_ENV() {
-    RCLONE_ENV_FILE="${ARIA2_CONF_DIR}/rclone.env"
-    [[ -f ${RCLONE_ENV_FILE} ]] && export $(grep -Ev "^#|^$" ${RCLONE_ENV_FILE} | xargs -0)
-}
 
 UPLOAD_FILE() {
     echo -e "$(DATE_TIME) ${INFO} Start upload files..."
@@ -105,9 +86,9 @@ UPLOAD_FILE() {
             echo
         )
         if [ -f "${LOCAL_PATH}" ]; then
-            rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} operations/copyfile srcFs=/mnt/data/downloads srcRemote="${TASK_FILE_NAME}" dstFs="${REMOTE_PATH}" dstRemote="${TASK_FILE_NAME}" _async=true
+            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/downloads","srcRemote":"'"${TASK_FILE_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TASK_FILE_NAME}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/copyfile'
         else
-            rclone rc --user "${USER}" --pass "${PASSWORD}" --rc-addr=localhost:56802${RCLONERC_PATH} sync/copy srcFs="${LOCAL_PATH}" dstFs="${REMOTE_PATH}" _async=true
+            curl -s -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${LOCAL_PATH}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/copy'
         fi   
         RCLONE_EXIT_CODE=$?
         if [ ${RCLONE_EXIT_CODE} -eq 0 ]; then
@@ -129,13 +110,11 @@ UPLOAD_FILE() {
 
 CHECK_CORE_FILE "$@"
 CHECK_SCRIPT_CONF
-CHECK_RCLONE "$@"
 CHECK_FILE_NUM
 GET_TASK_INFO
 GET_DOWNLOAD_DIR
 CONVERSION_PATH
 DEFINITION_PATH
 CLEAN_UP
-LOAD_RCLONE_ENV
 UPLOAD_FILE
 exit 0
