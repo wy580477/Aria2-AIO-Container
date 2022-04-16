@@ -6,7 +6,9 @@
 
 ## 概述
 
-本容器集成了Aria2+WebUI、Aria2+Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。
+本容器集成了Aria2+WebUI、Aria2+Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。  
+
+[Heroku版本传送门](https://github.com/wy580477/Heroku-All-In-One-APP)
 
 ![image](https://user-images.githubusercontent.com/98247050/163658943-4df3e534-248a-46c5-b832-bfa6957c46c8.png)
  
@@ -43,7 +45,7 @@ docker exec -it allinone sh
 sv stop filebrowser
 # 停止filebrowser服务
 filebrowser -d /mnt/config/filebrowser.db users add 用户名 密码 --perm.admin
-# 新建管理员用户。也可以使用user update 用户名 --perm.admin命令赋予现有用户管理员权限。
+# 新建管理员用户。也可以使用users update 用户名 --perm.admin命令赋予现有用户管理员权限。
 sv start filebrowser
 # 启动filebrowser服务
 ```        

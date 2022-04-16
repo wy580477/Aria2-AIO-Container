@@ -68,10 +68,10 @@ services:
       RCLONE_ADDR: http://localhost:56802
       # Rclone Remote Control地址，默认值适用于host网络模式。
       # 如果使用bridge网络，需要改为"http://rclone:5572"。
-  allinone_rclone:
+  rclone_daemon:
     <<: *global
     image: ghcr.io/wy580477/rclone-daemon-container:latest
-    container_name: allineone_rclone
+    container_name: rclone_daemon
     hostname: rclone
     environment:
       <<: *env
