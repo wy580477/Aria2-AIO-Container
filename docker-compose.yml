@@ -70,7 +70,7 @@ services:
       # 如果使用bridge网络，需要改为"http://rclone:5572"。
   allinone_rclone:
     <<: *global
-    image: ghcr.io/wy580477/rclone-container-for-aria2-aio:main
+    image: ghcr.io/wy580477/rclone-daemon-container:latest
     container_name: allineone_rclone
     hostname: rclone
     environment:
