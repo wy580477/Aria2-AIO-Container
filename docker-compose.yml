@@ -37,7 +37,7 @@ services:
     environment:
       <<: *env
       DOMAIN:
-      # 域名设置为有效域名（可以解析到你的host）,并且80和443端口面向公网开放，就可启用caddy的自动申请证书开启https功能。
+      # 域名设置为有效域名（可以解析到你的host）,并且80端口面向公网开放，就可启用caddy的自动申请证书开启https功能。
       # 设置为http://localhost，则监听本地回环地址提供http服务。
       # 设置为空值，则对外部ip开放http服务，不建议在家庭局域网以外的环境使用。
       EMAIL: internal
