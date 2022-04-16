@@ -50,7 +50,7 @@ services:
       PORTAL_PATH: /portal
       # 导航页路径和所有Web服务基础URL，不能为空值和"/"后面不能加"/"。建议设置为不常见的字符串，防止字典爆破攻击。
       ARIA_IPV6: "false"
-      # Aria2下载功能和DHT网络ipv6开关，不影响其他进程使用ipv6网络。
+      # Aria2下载功能和DHT网络ipv6开关，不影响其他进程使用ipv6网络。设置为"true"开启ipv6。
       BT_PORT: 51413
       # Aria2 BT下载使用的端口，建议在防火墙设置中tcp和udp流量都放行，以提高下载速度。
       POST_MODE: copy_remote
