@@ -30,11 +30,11 @@ handle {$PORTAL_PATH}/rcloneweb* {
 }
 # Configure Rclone RC
 handle_path {$PORTAL_PATH}/rclonerc {
-        reverse_proxy * ${RCLONE_ADDR}
+        reverse_proxy * {$RCLONE_ADDR}
 }
 # Configure Rclone Serve
 handle_path {$PORTAL_PATH}/rclonerc/* {
-        reverse_proxy * ${RCLONE_ADDR}
+        reverse_proxy * {$RCLONE_ADDR}
 }
 # Configure Aria2 RPC
 handle {$PORTAL_PATH}/jsonrpc {
