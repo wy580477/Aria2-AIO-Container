@@ -5,10 +5,6 @@ if [ "${MODE}" = "build" ]; then
     sleep infinity
 fi
 
-if [ "${FILEBROWSER_ADMIN}" = "true" ]; then
-    PERM='--perm.admin'
-fi
-
 # Configure filebrowser
 if [ ! -f "/mnt/config/filebrowser.db" ]; then
     filebrowser -d /mnt/config/filebrowser.db config init -r /mnt
@@ -17,7 +13,11 @@ if [ ! -f "/mnt/config/filebrowser.db" ]; then
         filebrowser -d /mnt/config/filebrowser.db users update ${USER} --locale zh-cn
     fi
 else
-    filebrowser -d /mnt/config/filebrowser.db users add ${USER} ${PASSWORD}
+    if [ "${LANGUAGE}" = "chs" ]; then
+        filebrowser -d /mnt/config/filebrowser.db users add ${USER} ${PASSWORD} --locale zh-cn --commands="sv,aria2c,rclone,du,df,free,ping,nslookup,netstat,top,ps"
+    else
+        filebrowser -d /mnt/config/filebrowser.db users add ${USER} ${PASSWORD} --commands="sv,aria2c,rclone,du,df,free,ping,nslookup,netstat,top,ps"
+    fi
     filebrowser -d /mnt/config/filebrowser.db users update ${USER} -p ${PASSWORD}
 fi
 
