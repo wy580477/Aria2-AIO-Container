@@ -51,7 +51,7 @@ sv start filebrowser
  3. 无法通过Rclone Web UI远程设置需要网页认证的远程存储配置，建议在本地桌面系统上运行rclone config使用命令行配置或者rclone rcd使用Web UI网页配置。
  4. caddy如果频繁申请证书会被限制导致启动失败，所以如果使用自动https功能，config目录下caddy目录不要随意删除/移动。
  5. config/aria2目录下为Aria2相关配置文件，按语言变量选择版本进行修改。   
-    script.conf为Aria2自动化配置文件，可以更改文件自动清理设置。   
+    script.conf为Aria2自动化配置文件，可以更改文件自动清理设置和指定Rclone上传目录。   
     执行tracker.sh可自动下载tracker列表添加到aria2配置文件，注意这样会覆盖原来的tracker列表。
  7. config/homer_conf目录下为导航页配置文件和图标资源，配置文件详解见：https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md  
     添加到此目录下的图标文件，要在配置文件中以./assets/tools/example.png这样的路径调用。
