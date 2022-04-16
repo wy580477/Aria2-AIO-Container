@@ -43,7 +43,7 @@ services:
       EMAIL: internal
       # 接受证书颁发机构通知邮件的地址，可以填虚假地址。
       # 默认值internal为使用caddy自签证书。
-      WEB_PORT: 80
+      WEB_PORT: 443
       # 提供Web服务的端口，如果要关闭caddy自动https功能，需设置为非443端口。
       LANGUAGE: chs
       # 设置导航页和Filebrowser界面语言为中文，可选en（英文）。
