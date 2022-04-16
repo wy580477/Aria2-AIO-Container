@@ -2,7 +2,7 @@
 version: '2.3'
 services:
   allinone:
-    image: ghcr.io/wy580477/aria2-aio-container:latest
+    image: ghcr.io/wy580477/aria2-aio-container:v0.8.0
     container_name: allinone
     network_mode: host
     # host模式配置方便，不容易出问题。如果追求更安全，则需要配置bridge模式映射端口。
