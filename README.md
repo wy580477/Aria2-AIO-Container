@@ -12,7 +12,7 @@
 
 [Heroku版本传送门](https://github.com/wy580477/Heroku-All-In-One-APP)
 
-![image](https://user-images.githubusercontent.com/98247050/163658943-4df3e534-248a-46c5-b832-bfa6957c46c8.png)
+![image](https://user-images.githubusercontent.com/98247050/164392910-bf65f77a-53d6-41a4-b6c6-03f3bb410f3f.png)
  
  1. 开箱即用，只需要准备rclone.conf配置文件, 容器一切配置都预备齐全。
  2. AMD64/i386/Arm64/Armv7多架构支持。
