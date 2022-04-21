@@ -6,18 +6,11 @@ else
     MESSAGE3="Disabled"
 fi
 
-if [ "${CLEAN_UNFINISHED_FAILED_TASK_FILES}" = "true" ]; then
-    MESSAGE1="Enabled"
-else 
-    MESSAGE1="Disabled"
-fi
-
 DRIVE_NAME_AUTO="$(sed -n '1p' /mnt/config/rclone.conf | sed "s/\[//g" | sed "s/\]//g")"
 if [ "${DRIVE_NAME}" = "auto" ]; then
     DRIVENAME=${DRIVE_NAME_AUTO}
 fi
 
-sed -i "s|MESSAGE1|${MESSAGE1}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 sed -i "s|MESSAGE3|${MESSAGE3}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 sed -i "s|BT_PORT|${BT_PORT}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 

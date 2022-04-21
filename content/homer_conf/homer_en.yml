@@ -47,7 +47,7 @@ message:
   style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
   #title: "Demo !"
 #  icon: "fa fa-grin"
-  content: "<b>Aria2 Status:<br />IPV6: MESSAGE3 // Bittorrent Port: BT_PORT<br />Delete files of failed or removed unfinished task: MESSAGE1MODE_STATUS"
+  content: "<b>Aria2 Status:<br />IPV6: MESSAGE3 // Bittorrent Port: BT_PORTMODE_STATUS"
 
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
