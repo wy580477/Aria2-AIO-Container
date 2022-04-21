@@ -11,6 +11,7 @@ if [ "${DRIVE_NAME}" = "auto" ]; then
     DRIVENAME=${DRIVE_NAME_AUTO}
 fi
 
+BT_PORT="$(grep ^listen-port /mnt/config/aria2/aria2.conf | cut -d= -f2-)"
 sed -i "s|MESSAGE3|${MESSAGE3}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 sed -i "s|BT_PORT|${BT_PORT}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 
