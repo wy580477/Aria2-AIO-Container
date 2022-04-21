@@ -21,6 +21,8 @@ x-global: &global
     - ~/config:/mnt/config
     # 配置文件存放目录。将~/config换成你在host上想指定的目录。
   restart: unless-stopped
+  network_mode: host
+  # 建议对docker不熟悉的用户选择host网络模式，而且host模式性能更好。
   logging:
     driver: "journald"
     # 个人偏好journald自动管理日志。
@@ -30,10 +32,8 @@ x-global: &global
 services:
   allinone:
     <<: *global
-    image: ghcr.io/wy580477/aria2-aio-container:latest
+    image: ghcr.io/wy580477/aria2-aio-container:dev
     container_name: allinone
-    network_mode: host
-    # 建议对docker不熟悉的用户选择host网络模式。
     environment:
       <<: *env
       DOMAIN:
@@ -66,16 +66,15 @@ services:
       # 如果使用bridge网络，需要改为"http://rclone:5572"。
   rclone_daemon:
     <<: *global
-    image: ghcr.io/wy580477/rclone-daemon-container:latest
+    image: ghcr.io/wy580477/rclone-daemon-container:dev
     container_name: rclone_daemon
     hostname: rclone
     environment:
       <<: *env
-    ports:
-      - "127.0.0.1:56802:5572"
-      # 如果上面allinone容器使用bridge网络模式，将使用docker内部网络通信，可以删除此项。
     command:
       - --rc-serve
+      - --rc-addr=localhost:56802
+      # 仅适用于host网络模式，如使用bridge模式，删除此项。
       - --config /mnt/config/rclone.conf
       - --rc-allow-origin=*
       - --use-mmap
