@@ -21,8 +21,6 @@ x-global: &global
     - ~/config:/mnt/config
     # 配置文件存放目录。将~/config换成你在host上想指定的目录。
   restart: unless-stopped
-  network_mode: host
-  # host网络模式配置简单，而且不经过NAT转换性能更好。
   logging:
     driver: "journald"
     # 个人偏好journald自动管理日志。
@@ -34,6 +32,8 @@ services:
     <<: *global
     image: ghcr.io/wy580477/aria2-aio-container:latest
     container_name: allinone
+    network_mode: host
+    # 建议对docker不熟悉的用户选择host网络模式。
     environment:
       <<: *env
       DOMAIN:
@@ -48,9 +48,11 @@ services:
       LANGUAGE: chs
       # 设置导航页和Filebrowser界面语言为中文，可选en（英文）。
       PORTAL_PATH: /portal
-      # 导航页路径和所有Web服务基础URL，不能为空值和"/"，后面不能加"/"。建议设置为不常见的字符串，防止字典爆破攻击。
+      # 导航页路径和所有Web服务基础URL，不能为空值和"/"后面不能加"/"。建议设置为不常见的字符串，防止字典爆破攻击。
       ARIA_IPV6: "false"
       # Aria2下载功能和DHT网络ipv6开关，不影响其他进程使用ipv6网络。设置为"true"开启ipv6。
+      BT_PORT: 51413
+      # Aria2 BT下载使用的端口，建议在防火墙设置中tcp和udp流量都放行，以提高下载速度。
       POST_MODE: copy_remote
       # Aria2自动化模式，dummy模式为无操作，move模式为下载及做种完成后移动到本地finished目录。
       # move_remote模式为下载及做种完成后先移动到本地data数据卷下finished目录，然后移动到rclone远程存储。
@@ -58,12 +60,14 @@ services:
       # copy_remote_first模式为下载完成后立即复制到rclone原创存储，BT任务在做种前即触发。
       # copy_remote模式为下载及做种完成后先移动到本地data数据卷下finished目录，然后复制到rclone远程存储。
       # custom模式为自行设置aria2配置文件触发脚本选项。
+      CLEAN_UNFINISHED_FAILED_TASK_FILES: "true"
+      # 删除失败和在下载完成之前移除的任务文件。POST_MODE变量设置为Custom时，此项无效。
       AUTO_DRIVE_NAME: "true"
       # 设置为"true"会从rclone.conf文件第一行中提取Rclone远程存储配置名称。
       # 否则需要在config数据卷/aria2/script.conf文件中手动指定Rclone远程存储配置名称。
       RCLONE_ADDR: http://localhost:56802
       # Rclone Remote Control地址，默认值适用于host网络模式。
-      # 如果使用bridge网络模式，需要改为"http://rclone:5572"。
+      # 如果使用bridge网络，需要改为"http://rclone:5572"。
   rclone_daemon:
     <<: *global
     image: ghcr.io/wy580477/rclone-daemon-container:latest
@@ -71,10 +75,11 @@ services:
     hostname: rclone
     environment:
       <<: *env
+    ports:
+      - "127.0.0.1:56802:5572"
+      # 如果上面allinone容器使用bridge网络模式，将使用docker内部网络通信，可以删除此项。
     command:
       - --rc-serve
-      - --rc-addr=localhost:56802
-      # 仅适用于host网络模式，如使用bridge模式，设置为":5572"。
       - --config /mnt/config/rclone.conf
       - --rc-allow-origin=*
       - --use-mmap

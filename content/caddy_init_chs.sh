@@ -6,18 +6,12 @@ else
     MESSAGE3="未启用"
 fi
 
-if [ "${CLEAN_UNFINISHED_FAILED_TASK_FILES}" = "true" ]; then
-    MESSAGE1="已启用"
-else 
-    MESSAGE1="未启用"
-fi
-
 DRIVE_NAME_AUTO="$(sed -n '1p' /mnt/config/rclone.conf | sed "s/\[//g" | sed "s/\]//g")"
 if [ "${AUTO_DRIVE_NAME}" = "true" ]; then
     DRIVENAME=${DRIVE_NAME_AUTO}
 fi
 
-sed -i "s|MESSAGE1|${MESSAGE1}|g" /.aria2allinoneworkdir/homer/assets/config.yml
+BT_PORT="$(grep ^listen-port /mnt/config/aria2/aria2.conf | cut -d= -f2-)"
 sed -i "s|MESSAGE3|${MESSAGE3}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 sed -i "s|BT_PORT|${BT_PORT}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 

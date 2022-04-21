@@ -47,7 +47,7 @@ message:
   style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
   #title: "Demo !"
 #  icon: "fa fa-grin"
-  content: "<b>Aria2 运行状态:<br />IPV6: MESSAGE3 // BT端口: BT_PORT<br />自动删除错误或已移除的未完成任务文件: MESSAGE1MODE_STATUS"
+  content: "<b>Aria2 运行状态:<br />IPV6: MESSAGE3 // BT端口: BT_PORTMODE_STATUS"
 
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links

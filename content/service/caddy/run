@@ -26,10 +26,12 @@ fi
 if [ ! -d "/mnt/config/homer" ]; then
   mkdir -p /mnt/config/homer
   cp /.aria2allinoneworkdir/homer_conf/* /mnt/config/homer/
+  rm -rf /mnt/config/homer/*.yml
+  cp /.aria2allinoneworkdir/homer_conf/homer_${LANGUAGE}.yml /mnt/config/homer/homer.yml
 fi
 
 cp /mnt/config/homer/* /.aria2allinoneworkdir/homer/assets/tools/
-cp /mnt/config/homer/homer_${LANGUAGE}.yml /.aria2allinoneworkdir/homer/assets/config.yml
+cp /mnt/config/homer/homer.yml /.aria2allinoneworkdir/homer/assets/config.yml
 sed -i "s|PORTAL_PATH|${PORTAL_PATH}|g" /.aria2allinoneworkdir/homer/assets/config.yml
 
 # Run language script

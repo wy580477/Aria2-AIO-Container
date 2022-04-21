@@ -8,16 +8,17 @@ fi
 # Configure aria2
 if [ ! -d "/mnt/config/aria2" ]; then
        mkdir -p /mnt/config/aria2
-       cp /.aria2allinoneworkdir/aria2/*.conf /mnt/config/aria2/
+       cp /.aria2allinoneworkdir/aria2/aria2_${LANGUAGE}.conf /mnt/config/aria2/aria2.conf
        cp /.aria2allinoneworkdir/aria2/*.dat /mnt/config/aria2/
        cp /.aria2allinoneworkdir/aria2/tracker.sh /mnt/config/aria2/
+       cp /.aria2allinoneworkdir/aria2/script.conf /mnt/config/aria2/script.conf
 fi
 
 if [ ! -f "/mnt/config/aria2/aria2.session" ]; then
        touch /mnt/config/aria2/aria2.session
 fi
 
-cp /mnt/config/aria2/aria2_${LANGUAGE}.conf /.aria2allinoneworkdir/aria2.conf
+cp /mnt/config/aria2/aria2.conf /.aria2allinoneworkdir/aria2.conf
 sed -i "s|^rpc-secret=.*|rpc-secret=${PASSWORD}|g" /.aria2allinoneworkdir/aria2.conf
 
 if [ "${ARIA_IPV6}" = "true" ]; then
@@ -46,20 +47,10 @@ else
        sed -i "s|^on-bt-download-complete=/.aria2allinoneworkdir/aria2/.*.sh|on-bt-download-complete=/.aria2allinoneworkdir/aria2/clean.sh|g" /.aria2allinoneworkdir/aria2.conf
 fi
 
-if [[ "${CLEAN_UNFINISHED_FAILED_TASK_FILES}" = "true" ]] && [[ "${POST_MODE}" != "custom" ]]; then
-       sed -i "s|^on-download-stop=/.aria2allinoneworkdir/aria2/.*.sh|on-download-stop=/.aria2allinoneworkdir/aria2/delete.sh|g" /.aria2allinoneworkdir/aria2.conf
-elif [ "${POST_MODE}" = "custom" ]; then
-       :
-else
-       sed -i "s|^on-download-stop=/.aria2allinoneworkdir/aria2/.*.sh|on-download-stop=/.aria2allinoneworkdir/aria2/clean.sh|g" /.aria2allinoneworkdir/aria2.conf
-fi
-
 # Run aria2
 exec 2>&1
 exec aria2c --conf-path="/.aria2allinoneworkdir/aria2.conf" \
 --enable-rpc \
---dht-listen-port=${BT_PORT} \
---listen-port=${BT_PORT} \
 --rpc-listen-port=56800 \
 --show-console-readout false \
 --enable-mmap true
