@@ -1,0 +1,93 @@
+version: '3.4'
+x-env:
+# 全局变量设置
+  environment: &env
+    USER: admin
+    # 用户名，适用于所有需要输入用户名的Web服务。
+    PASSWORD: password
+    # 务必设置为强密码。同样适用于所有需要输入密码的Web服务，同时也是Aria2的RPC密钥。
+    PUID: 0
+    PGID: 0
+    # 设置用户uid和gid，如需以非特权用户运行容器内进程，设置为1000以上即可。
+    # 如果使用非特权用户运行，注意data数据卷的权限，容器启动时会自动修正config数据卷的权限。
+    # 但data数据卷下文件数量可能很大，为避免影响启动速度需要手动设置权限。
+    TZ: Asia/Shanghai
+    # 指定时区。UTC为标准时间。
+x-global: &global
+# 其它全局设置
+  volumes:
+    - ~/data:/mnt/data
+    # 下载数据存放目录。将~/data换成你在host上想指定的目录。
+    - ~/config:/mnt/config
+    # 配置文件存放目录。将~/config换成你在host上想指定的目录。
+  restart: unless-stopped
+  logging:
+    driver: "journald"
+    # 个人偏好journald自动管理日志。
+    options:
+      tag: "{{.Name}}"
+      # 给日志添加容器名(container_name)的tag。
+services:
+  allinone:
+    <<: *global
+    image: ghcr.io/wy580477/aria2-aio-container:latest
+    container_name: allinone
+    network_mode: host
+    # 建议对docker不熟悉的用户选择host网络模式。
+    environment:
+      <<: *env
+      DOMAIN:
+      # 域名设置为有效域名（可以解析到你的host）,并且80端口面向公网开放，就可启用caddy的自动申请证书开启https功能。
+      # 设置为http://localhost，则监听本地回环地址提供http服务。
+      # 设置为空值，则对外部ip开放http服务，不建议在家庭局域网以外的环境使用。
+      EMAIL: internal
+      # 接受证书颁发机构通知邮件的地址，可以填虚假地址。
+      # 默认值internal为使用caddy自签证书。
+      WEB_PORT: 443
+      # 提供Web服务的端口，如果要关闭caddy自动https功能，需设置为非443端口。
+      LANGUAGE: chs
+      # 设置导航页和Filebrowser界面语言为中文，可选en（英文）。
+      PORTAL_PATH: /portal
+      # 导航页路径和所有Web服务基础URL，不能为空值和"/"后面不能加"/"。建议设置为不常见的字符串，防止字典爆破攻击。
+      ARIA_IPV6: "false"
+      # Aria2下载功能和DHT网络ipv6开关，不影响其他进程使用ipv6网络。设置为"true"开启ipv6。
+      BT_PORT: 51413
+      # Aria2 BT下载使用的端口，建议在防火墙设置中tcp和udp流量都放行，以提高下载速度。
+      POST_MODE: copy_remote
+      # Aria2自动化模式，dummy模式为无操作，move模式为下载及做种完成后移动到本地finished目录。
+      # move_remote模式为下载及做种完成后先移动到本地data数据卷下finished目录，然后移动到rclone远程存储。
+      # move_remote_only模式为下载及做种完成后移动到rclone原创存储。
+      # copy_remote_first模式为下载完成后立即复制到rclone原创存储，BT任务在做种前即触发。
+      # copy_remote模式为下载及做种完成后先移动到本地data数据卷下finished目录，然后复制到rclone远程存储。
+      # custom模式为自行设置aria2配置文件触发脚本选项。
+      CLEAN_UNFINISHED_FAILED_TASK_FILES: "true"
+      # 删除失败和在下载完成之前移除的任务文件。POST_MODE变量设置为Custom时，此项无效。
+      AUTO_DRIVE_NAME: "true"
+      # 设置为"true"会从rclone.conf文件第一行中提取Rclone远程存储配置名称。
+      # 否则需要在config数据卷/aria2/script.conf文件中手动指定Rclone远程存储配置名称。
+      RCLONE_ADDR: http://localhost:56802
+      # Rclone Remote Control地址，默认值适用于host网络模式。
+      # 如果使用bridge网络，需要改为"http://rclone:5572"。
+  rclone_daemon:
+    <<: *global
+    image: ghcr.io/wy580477/rclone-daemon-container:latest
+    container_name: rclone_daemon
+    hostname: rclone
+    environment:
+      <<: *env
+    ports:
+      - "127.0.0.1:56802:5572"
+      # 如果上面allinone容器使用bridge网络模式，将使用docker内部网络通信，可以删除此项。
+    command:
+      - --rc-serve
+      - --config /mnt/config/rclone.conf
+      - --rc-allow-origin=*
+      - --use-mmap
+      - --buffer-size 4M
+      # 单个文件传输内存缓冲区大小。
+      - --transfers 4
+      # 单任务并发传输数量。此项和上面一项默认设置适用于512M内存低配host，高配host可适当提高。
+    # - --copy-links
+      # 传输符号链接目标文件/目录。
+      # 还可以添加更多运行参数，详见https://rclone.org/flags/
+    
