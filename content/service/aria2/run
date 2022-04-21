@@ -11,6 +11,7 @@ if [ ! -d "/mnt/config/aria2" ]; then
        cp /.aria2allinoneworkdir/aria2/aria2_${LANGUAGE}.conf /mnt/config/aria2/aria2.conf
        cp /.aria2allinoneworkdir/aria2/*.dat /mnt/config/aria2/
        cp /.aria2allinoneworkdir/aria2/tracker.sh /mnt/config/aria2/
+       cp /.aria2allinoneworkdir/aria2/script.conf /mnt/config/aria2/script.conf
 fi
 
 if [ ! -f "/mnt/config/aria2/aria2.session" ]; then
