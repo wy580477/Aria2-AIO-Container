@@ -8,7 +8,7 @@
 
 本容器集成了Aria2+WebUI、Aria2+Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。  
 
-[Aria2独立精简版本传送门](https://github.com/wy580477/Aria2-Container-for-Rclone)
+[Aria2独立容器精简版本传送门](https://github.com/wy580477/Aria2-Container-for-Rclone)
 
 [Heroku版本传送门](https://github.com/wy580477/Heroku-All-In-One-APP)
 
