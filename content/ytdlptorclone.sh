@@ -4,7 +4,7 @@ DATE_TIME() {
     date +"%m/%d %H:%M:%S"
 }
 
-DRIVE_NAME"$(grep ^drive-name /mnt/config/aria2/script.conf | cut -d= -f2-)"
+DRIVE_NAME="$(grep ^drive-name /mnt/config/aria2/script.conf | cut -d= -f2-)"
 DRIVE_DIR="$(grep ^drive-dir /mnt/config/aria2/script.conf | cut -d= -f2-)"
 REMOTE_PATH="${DRIVE_NAME}:${DRIVE_DIR}"
 FILEPATH=$(echo $1 | sed 's:[^/]*$::')
