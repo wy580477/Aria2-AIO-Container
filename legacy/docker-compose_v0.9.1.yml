@@ -30,7 +30,7 @@ x-global: &global
 services:
   allinone:
     <<: *global
-    image: ghcr.io/wy580477/aria2-aio-container:latest
+    image: ghcr.io/wy580477/aria2-aio-container:v0.9.1
     container_name: allinone
     network_mode: host
     # 建议对docker不熟悉的用户选择host网络模式。
