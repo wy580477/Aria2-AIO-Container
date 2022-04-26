@@ -1,5 +1,6 @@
 #!/bin/sh
 
+mkdir -p /mnt/data/videos 2>/dev/null
 cd /app
 exec 2>&1
 exec python3 /app/app/main.py
