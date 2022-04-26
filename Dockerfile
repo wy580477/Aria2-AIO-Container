@@ -21,7 +21,7 @@ ENV RCLONE_ADDR=http://localhost:56802
 ENV XDG_CONFIG_HOME=/mnt/config
 ENV DOWNLOAD_DIR=/mnt/data/videos
 ENV STATE_DIR=/mnt/data/videos/.metube
-ENV YTDL_OPTIONS={"postprocessors":[{"key":"Exec","exec_cmd":"ytdlptorclone.sh"}]}
+ENV YTDL_OPTIONS="{"postprocessors":[{"key":"Exec","exec_cmd":"ytdlptorclone.sh"}]}"
 ENV OUTPUT_TEMPLATE="%(title)s_%(uploader)s_%(id)s.%(ext)s"
 
 RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata \
