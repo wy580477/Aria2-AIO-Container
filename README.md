@@ -41,9 +41,16 @@ docker-compose up -d
 docker restart allinone
 ```
 
-### 更多用法和注意事项
-
- 1. 考虑安全原因Filebrowser初始用户无管理员权限，如需要管理员权限，执行下列命令：
+### 更多用法和注意事项  
+ 1. 命令行调用yt-dlp方法：
+```
+docker exec allinone yt-dlp
+# 可以使用alias设置别名方便使用：  
+alias dlpr="docker exec allinone yt-dlp --exec ytdlptorclone.sh -P /mnt/data/videos"
+# 下载到/mnt/data/videos目录并与rclone联动，注意要用容器内部路径，不是主机路径。
+dlpr https://www.youtube.com/watch?v=rbDzVzBsbGM
+```   
+ 2. 考虑安全原因Filebrowser初始用户无管理员权限，如需要管理员权限，执行下列命令：
 ```
 docker exec -it allinone sh
 # 进入容器shell
@@ -54,10 +61,10 @@ filebrowser -d /mnt/config/filebrowser.db users add 用户名 密码 --perm.admi
 sv start filebrowser
 # 启动filebrowser服务
 ```        
- 2. 删除config目录下filebrowser.db文件可重置filebrowser所有设置。
- 3. 无法通过Rclone Web UI远程设置需要网页认证的远程存储配置，建议在本地桌面系统上运行rclone config使用命令行配置或者rclone rcd使用Web UI网页配置。
- 4. caddy如果频繁申请证书会被限制导致启动失败，所以如果使用自动https功能，config目录下caddy目录不要随意删除/移动。
- 5. config/aria2目录下为Aria2相关配置文件。script.conf为Aria2自动化配置文件，可以更改文件自动清理设置和指定Rclone上传目录。   
+ 3. 删除config目录下filebrowser.db文件可重置filebrowser所有设置。
+ 4. 无法通过Rclone Web UI远程设置需要网页认证的远程存储配置，建议在本地桌面系统上运行rclone config使用命令行配置或者rclone rcd使用Web UI网页配置。
+ 5. caddy如果频繁申请证书会被限制导致启动失败，所以如果使用自动https功能，config目录下caddy目录不要随意删除/移动。
+ 6. config/aria2目录下为Aria2相关配置文件。script.conf为Aria2自动化配置文件，可以更改文件自动清理设置和指定Rclone上传目录。   
     tracker.sh为自动更新tracker脚本，每24小时自动执行，注意会覆盖原tracker设置。如需要关闭，改名或删除tracker.sh即可。
- 6. config/homer_conf目录下为导航页配置文件和图标资源，配置文件详解见：https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md  
+ 7. config/homer_conf目录下为导航页配置文件和图标资源，配置文件详解见：https://github.com/bastienwirtz/homer/blob/main/docs/configuration.md  
     添加到此目录下的图标文件，要在配置文件中以./assets/tools/example.png这样的路径调用。
