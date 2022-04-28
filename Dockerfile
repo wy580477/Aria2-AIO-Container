@@ -25,7 +25,7 @@ RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata \
     && wget -P /.aria2allinoneworkdir https://github.com/rclone/rclone-webui-react/releases/latest/download/currentbuild.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip \
     && curl -fsSL https://raw.githubusercontent.com/wy580477/filebrowser-install/master/get.sh | bash \
-    && apk add --no-cache --virtual .build-deps gcc musl-dev \
+    && apk add --no-cache --virtual .build-deps gcc musl-dev g++ \
     && python3 -m pip install -U wheel yt-dlp \
     && apk del .build-deps \
     && chmod +x /.aria2allinoneworkdir/service/*/run /.aria2allinoneworkdir/aria2/*.sh /.aria2allinoneworkdir/*.sh \
