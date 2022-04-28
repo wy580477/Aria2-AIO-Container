@@ -10,7 +10,7 @@
 
 本容器集成了yt-dlp Web前端metube、Aria2+Rclone+WebUI、Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。  
 
-[无yt-dlp Web前端metube精简版本传送门](https://github.com/wy580477/Aria2-AIO-Container/tree/lite)
+[无yt-dlp Web前端metube精简版本传送门](https://github.com/wy580477/Aria2-AIO-Container/tree/lite)  
 保留了yt-dlp和其自动上传rclone脚本，容器镜像大小从261MB缩减到176MB，闲置时内存占用从100MB缩减到40MB，更适合低配置host。
 
 [Aria2独立容器精简版本传送门](https://github.com/wy580477/Aria2-Container-for-Rclone)
