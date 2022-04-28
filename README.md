@@ -1,6 +1,5 @@
 ## 鸣谢
 
-- [alexta69/metube](https://github.com/alexta69/metube) 简洁好用的yt-dlp前端。
 - [P3TERX/aria2.conf](https://github.com/P3TERX/aria2.conf)  依靠来自P3TERX的Aria2脚本，实现了Aria2下载完成自动触发Rclone上传。
 - [wahyd4/aria2-ariang-docker](https://github.com/wahyd4/aria2-ariang-docker)  启发了本项目的总体思路。
 - [bastienwirtz/homer](https://github.com/bastienwirtz/homer)  使用yaml配置文件的静态导航页，便于自定义。
@@ -8,7 +7,9 @@
 
 ## 概述
 
-本容器集成了yt-dlp Web前端metube、Aria2+Rclone+WebUI、Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。  
+本容器集成了Aria2+Rclone+WebUI、yt-dlp、Rclone联动自动上传功能、可自定义的导航页、Filebrowser轻量网盘。  
+
+[集成yt-dlp Web前端metube版本传送门](https://github.com/wy580477/Aria2-AIO-Container)
 
 [Aria2独立容器精简版本传送门](https://github.com/wy580477/Aria2-Container-for-Rclone)
 
@@ -20,7 +21,7 @@
  2. AMD64/Arm64/Armv7多架构支持。
  3. 由caddy反代所有web服务和远程控制路径，均有密码保护，可自定义基础URL防爆破，并可使用caddy自动申请证书开启https。
  4. 可自定义内容导航页，显示当前容器运行信息。
- 5. Aria2/yt-dlp和Rclone多种联动模式，复制/移动。有BT下载完成做种前立即开始上传功能，适合有长时间做种需求的用户。
+ 5. yt-dlp和Rclone多种联动模式，复制/移动。有BT下载完成做种前立即开始上传功能，适合有长时间做种需求的用户。
  6. 独立的Rclone容器以daemon方式运行，方便实时在WebUI上监测传输情况，可在docker-compose文件中自定义运行参数。
  7. Aria2和Rclone可以连接其它host上运行的AriaNg/RcloneNg等Web面板，方便集中管理。
  8. 基于 [runit](http://smarden.org/runit/index.html) 的进程管理，每个进程可以独立启停，互不影响。

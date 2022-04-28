@@ -32,7 +32,7 @@ x-global: &global
 services:
   allinone:
     <<: *global
-    image: ghcr.io/wy580477/aria2-aio-container:latest
+    image: ghcr.io/wy580477/aria2-aio-container:lite
     container_name: allinone
     environment:
       <<: *env
@@ -58,18 +58,13 @@ services:
       # copy_remote_first模式为Aria2下载完成后立即复制到rclone原创存储，BT任务在做种前即触发。
       # copy_remote模式为Aria2下载及做种完成后先移动到本地data数据卷下finished目录，然后复制到rclone远程存储。
       # custom模式为自行设置Aria2配置文件触发脚本选项。
-      # 两种move模式下mutube下载完成后会移动文件至rclone远程存储，两种copy模式下则为复制。
+      # 两种move模式下yt-dlp调用ytdlptorclone.sh脚本下载完成后会移动文件至rclone远程存储，两种copy模式下则为复制。
       AUTO_DRIVE_NAME: "true"
       # 设置为"true"会从rclone.conf文件第一行中提取Rclone远程存储配置名称。
       # 否则需要在config数据卷/aria2/script.conf文件中手动指定Rclone远程存储配置名称。
       RCLONE_ADDR: http://localhost:56802
       # Rclone Remote Control地址，默认值适用于host网络模式。
       # 如果使用bridge网络模式，需要改为"http://rclone:5572"。
-      YTDL_OPTIONS: "{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptorclone.sh\"}]}"
-      # metube下载视频所使用的yt-dlp参数，默认值下载完成后发送任务到rclone，受POST_MODE变量控制。详见：https://github.com/alexta69/metube#configuration-via-environment-variables
-      # 个别标题有特殊字符的视频metube下载后rclone可能无法上传，需要在YTDL_OPTIONS变量中添加："restrictfilenames":true
-      YTDL_OUTPUT_TEMPLATE: "%(title)s_%(uploader)s.%(ext)s"
-      # Metube下载输出文件名格式，详见：https://github.com/yt-dlp/yt-dlp#output-template
   rclone_daemon:
     <<: *global
     image: ghcr.io/wy580477/rclone-daemon-container:latest
