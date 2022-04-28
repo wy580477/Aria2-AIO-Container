@@ -31,7 +31,7 @@
 ## 快速部署
  
  1. 建议使用docker-compose方式部署，方便修改变量配置。
- 2. 下载[docker-compose文件](https://raw.githubusercontent.com/wy580477/Aria2-AIO-Container/master/docker-compose.yml)
+ 2. 下载[docker-compose文件](https://github.com/wy580477/Aria2-AIO-Container/blob/lite/docker-compose.yml)
  3. 按说明设置好变量，用如下命令运行容器。
 ```
 docker-compose up -d
