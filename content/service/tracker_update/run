@@ -4,7 +4,9 @@ sleep 20
 
 if [ -f "/mnt/config/aria2/tracker.sh" ]; then
     /mnt/config/aria2/tracker.sh RPC localhost:56800 ${PASSWORD}
+    python3 -m pip install -U yt-dlp
     sleep 24h
-else 
+else
+    python3 -m pip install -U yt-dlp
     sleep 24h
 fi
