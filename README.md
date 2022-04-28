@@ -18,7 +18,7 @@
 ![image](https://user-images.githubusercontent.com/98247050/165737452-b74ec7e0-0d15-4014-bc07-f2e85b6bc648.png)
  
  1. 开箱即用，只需要准备rclone.conf配置文件, 容器一切配置都预备齐全。
- 2. AMD64/Arm64/Armv7多架构支持。
+ 2. AMD64/x86/Arm64/Armv7多架构支持。
  3. 由caddy反代所有web服务和远程控制路径，均有密码保护，可自定义基础URL防爆破，并可使用caddy自动申请证书开启https。
  4. 可自定义内容导航页，显示当前容器运行信息。
  5. yt-dlp和Rclone多种联动模式，复制/移动。有BT下载完成做种前立即开始上传功能，适合有长时间做种需求的用户。
