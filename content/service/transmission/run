@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# Dummy run for building image
+if [ "${MODE}" = "build" ]; then
+    sleep infinity
+fi
+
+mkdir -p /mnt/config/transmission /mnt/data/torrent_watch 2>/dev/null
+
+if [ ! -f "/mnt/config/transmission/settings.json" ]; then
+    cp /.aria2allinoneworkdir/transmission_settings.json /mnt/config/transmission/
+fi
+
+tmp=$(mktemp)
+jq '."rpc-username"="'"${USER}"'"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+jq '."rpc-password"="'"${PASSWORD}"'"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+
+if [ "POST_MODE" = "copy_remote" ]; then
+    jq '."incomplete-dir-enabled"=true' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."download-dir"="/mnt/data/finished"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-enabled"=true' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-filename"="transmission_script.sh"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+elif [ "POST_MODE" = "copy_remote_first" ]; then
+    jq '."incomplete-dir-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."download-dir"="/mnt/data/downloads"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-enabled"=true' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-filename"="transmission_script.sh"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+elif [[ "POST_MODE" = "move_remote" ]]; then
+    jq '."incomplete-dir-enabled"=true' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."download-dir"="/mnt/data/finished"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-enabled"=true' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-filename"="transmission_script.sh"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+elif [[ "POST_MODE" = "move" ]]; then
+    jq '."incomplete-dir-enabled"=true' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."download-dir"="/mnt/data/finished"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+elif [ "POST_MODE" = "dummy" ]; then
+    jq '."incomplete-dir-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."download-dir"="/mnt/data/downloads"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+    jq '."script-torrent-done-seeding-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+fi
+
+exec 2>&1
+exec transmission-daemon -g /mnt/config/transmission

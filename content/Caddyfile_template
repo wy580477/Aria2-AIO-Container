@@ -54,6 +54,12 @@ handle {$PORTAL_PATH}/metube* {
         }
         reverse_proxy * localhost:8081
 }
+# Configure Transmission
+handle {$GLOBAL_PORTAL_PATH}/tr* {
+        redir {$GLOBAL_PORTAL_PATH}/tr {$GLOBAL_PORTAL_PATH}/tr/
+        uri replace {$GLOBAL_PORTAL_PATH}/tr/ /transmission/       
+        reverse_proxy * localhost:9091
+}
 # Configure homer
 handle {$PORTAL_PATH}* {  
         redir {$PORTAL_PATH} {$PORTAL_PATH}/         

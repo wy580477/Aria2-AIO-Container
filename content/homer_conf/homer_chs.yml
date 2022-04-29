@@ -90,6 +90,12 @@ services:
         tag: "app"
         url: "PORTAL_PATH/ariang"
         target: "_blank" # optional html a tag target attribute
+      - name: "Transmission"
+        logo: "./assets/tools/transmission.png"
+        subtitle: "BitTorrent 客户端"
+        tag: "app"
+        url: "PORTAL_PATH/tr"
+        target: "_blank" # optional html a tag target attribute
       - name: "Filebrowser"
         logo: "./assets/tools/filebrowser.png"
         subtitle: "Filebrowser 轻量个人网盘"
