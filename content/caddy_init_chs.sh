@@ -29,6 +29,4 @@ elif [ "${POST_MODE}" = "copy_remote_first" ]; then
     sed -i "s|MODE_STATUS|<br />Aria2 自动化模式:<br />[copy_remote_first] 下载完成后复制到 Rclone 远程存储 ${DRIVENAME}, BT任务在进入做种前触发上传</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 elif [ "${POST_MODE}" = "move_remote" ]; then
     sed -i "s|MODE_STATUS|<br />Aria2 自动化模式:<br />[move_remote] 下载及做种完成后移动到本地 finished 目录, 然后移动到 Rclone 远程存储 ${DRIVENAME}</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
-elif [ "${POST_MODE}" = "move_remote_only" ]; then
-    sed -i "s|MODE_STATUS|<br />Aria2 自动化模式:<br />[move_remote_only] 下载及做种完成后移动到 Rclone 远程存储 ${DRIVENAME}</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 fi
