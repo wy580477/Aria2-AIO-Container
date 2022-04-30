@@ -17,10 +17,9 @@ fi
 
 tmp=$(mktemp)
 jq '."rpc-username"="'"${USER}"'" | ."rpc-password"="'"${PASSWORD}"'"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
+export  CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt"
 
-if [[ "${POST_MODE}" = "copy_remote" ]] || [[ "${POST_MODE}" = "move_remote" ]]; then
-    jq '."incomplete-dir-enabled"=true | ."download-dir"="/mnt/data/finished" | ."script-torrent-done-enabled"=false | ."script-torrent-done-seeding-enabled"=true | ."script-torrent-done-seeding-filename"="/.aria2allinoneworkdir/transmission_script.sh"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
-elif [ "${POST_MODE}" = "copy_remote_first" ]; then
+if [[ "${POST_MODE}" =~ "remote" ]]; then
     jq '."incomplete-dir-enabled"=false | ."download-dir"="/mnt/data/downloads" | ."script-torrent-done-enabled"=true | ."script-torrent-done-seeding-enabled"=false | ."script-torrent-done-filename"="/.aria2allinoneworkdir/transmission_script.sh"' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
 elif [ "${POST_MODE}" = "move" ]; then
     jq '."incomplete-dir-enabled"=true | ."download-dir"="/mnt/data/finished" | ."script-torrent-done-enabled"=false | ."script-torrent-done-seeding-enabled"=false' /mnt/config/transmission/settings.json >"$tmp" && mv "$tmp" /mnt/config/transmission/settings.json
