@@ -94,7 +94,7 @@ services:
         logo: "./assets/tools/transmission.png"
         subtitle: "Web frontend for Aria2"
         tag: "app"
-        url: "PORTAL_PATH/ariang"
+        url: "PORTAL_PATH/tr/web"
         target: "_blank" # optional html a tag target attribute
       - name: "Filebrowser"
         logo: "./assets/tools/filebrowser.png"

@@ -57,6 +57,7 @@ handle {$PORTAL_PATH}/metube* {
 # Configure Transmission
 handle {$PORTAL_PATH}/tr* {
         redir {$PORTAL_PATH}/tr {$PORTAL_PATH}/tr/
+        redir {$PORTAL_PATH}/tr/web {$PORTAL_PATH}/tr/web/
         uri replace {$PORTAL_PATH}/tr/ /transmission/       
         reverse_proxy * localhost:9091
 }
