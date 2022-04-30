@@ -18,20 +18,40 @@ REMOTE_PATH="${DRIVE_NAME}:${DRIVE_DIR}"
 
 if [ -f "${TR_TORRENT_DIR}"/"${TR_TORRENT_NAME}" ]; then
     if [ "${POST_MODE}" = "move_remote" ]; then
+        mv "${TR_TORRENT_DIR}"/"${TR_TORRENT_NAME}" /mnt/data/finished/"${TR_TORRENT_NAME}"
+        curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished","srcRemote":"'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TR_TORRENT_NAME}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/movefile'
+        EXIT_CODE=$?
+        ECHO_INFO
+    elif [ "${POST_MODE}" = "move_remote_only" ]; then
         curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${TR_TORRENT_DIR}"'","srcRemote":"'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TR_TORRENT_NAME}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/movefile'
         EXIT_CODE=$?
         ECHO_INFO
-    else
-        curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${TR_TORRENT_DIR}"'","srcRemote":"'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TR_TORRENT_NAME}}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/copyfile'
+    elif [ "${POST_MODE}" = "copy_remote" ]; then
+        mv "${TR_TORRENT_DIR}"/"${TR_TORRENT_NAME}" /mnt/data/finished/"${TR_TORRENT_NAME}"
+        curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished","srcRemote":"'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TR_TORRENT_NAME}}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/copyfile'
         EXIT_CODE=$?
         ECHO_INFO
+    elif [ "${POST_MODE}" = "copy_remote_first" ]; then
+        curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${TR_TORRENT_DIR}"'","srcRemote":"'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","dstRemote":"'"${TR_TORRENT_NAME}}"'","_async":"true"}' ''${RCLONE_ADDR}'/operations/copyfile'
+        EXIT_CODE=$?
+        ECHO_INFO    
     fi
 else
     if [ "${POST_MODE}" = "move_remote" ]; then
+        mv "${TR_TORRENT_DIR}"/"${TR_TORRENT_NAME}" /mnt/data/finished/"${TR_TORRENT_NAME}"
+        curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished/'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/move'
+        EXIT_CODE=$?
+        ECHO_INFO
+    elif [ "${POST_MODE}" = "move_remote_only" ]; then
         curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${TR_TORRENT_DIR}"'/'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/move'
         EXIT_CODE=$?
         ECHO_INFO
-    else
+    elif [ "${POST_MODE}" = "copy_remote" ]; then
+        mv "${TR_TORRENT_DIR}"/"${TR_TORRENT_NAME}" /mnt/data/finished/"${TR_TORRENT_NAME}"
+        curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"/mnt/data/finished/'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/copy'
+        EXIT_CODE=$?
+        ECHO_INFO
+    elif [ "${POST_MODE}" = "copy_remote_first" ]; then
         curl -s -S -u ${USER}:${PASSWORD} -H "Content-Type: application/json" -f -X POST -d '{"srcFs":"'"${TR_TORRENT_DIR}"'/'"${TR_TORRENT_NAME}"'","dstFs":"'"${REMOTE_PATH}"'","_async":"true"}' ''${RCLONE_ADDR}'/sync/copy'
         EXIT_CODE=$?
         ECHO_INFO

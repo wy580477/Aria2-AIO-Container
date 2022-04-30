@@ -29,4 +29,6 @@ elif [ "${POST_MODE}" = "copy_remote_first" ]; then
     sed -i "s|MODE_STATUS|<br />Aria Event Hook mode:<br />[copy_remote_first] Copy files to Rclone remote ${DRIVENAME} after download completed, triggerd before seeding for Bittorrent task</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 elif [ "${POST_MODE}" = "move_remote" ]; then
     sed -i "s|MODE_STATUS|<br />Aria Event Hook mode:<br />[move_remove] Move files to local finished folder after both download and seeding completed, then move to Rclone remote ${DRIVENAME}</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
+elif [ "${POST_MODE}" = "move_remote_only" ]; then
+    sed -i "s|MODE_STATUS|<br />Aria Event Hook mode:<br />[move_remote_only] Move files to Rclone remote ${DRIVENAME} after both download and seeding completed</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 fi
