@@ -24,7 +24,7 @@ ENV STATE_DIR=/mnt/data/videos/.metube
 ENV YTDL_OPTIONS="{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptorclone.sh\"}]}"
 ENV YTDL_OUTPUT_TEMPLATE="%(title)s_%(uploader)s.%(ext)s"
 
-RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata transmission-cli \
+RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata transmission-cli transmission-daemon \
     && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.3/AriaNg-1.2.3.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/rclone/rclone-webui-react/releases/latest/download/currentbuild.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip \
