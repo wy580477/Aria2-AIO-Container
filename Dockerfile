@@ -24,11 +24,12 @@ ENV STATE_DIR=/mnt/data/videos/.metube
 ENV YTDL_OPTIONS="{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptorclone.sh\"}]}"
 ENV YTDL_OUTPUT_TEMPLATE="%(title)s_%(uploader)s.%(ext)s"
 
-RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata transmission-daemon \
+RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata transmission-cli \
     && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.3/AriaNg-1.2.3.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/rclone/rclone-webui-react/releases/latest/download/currentbuild.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip \
     && curl -fsSL https://raw.githubusercontent.com/wy580477/filebrowser-install/master/get.sh | bash \
+    && curl https://raw.githubusercontent.com/ronggang/transmission-web-control/master/release/install-tr-control.sh | bash -s auto \
     && chmod +x /.aria2allinoneworkdir/service/*/run /.aria2allinoneworkdir/aria2/*.sh /.aria2allinoneworkdir/*.sh \
     && mv /.aria2allinoneworkdir/ytdlptorclone.sh /usr/bin/
 
