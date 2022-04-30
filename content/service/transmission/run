@@ -12,7 +12,7 @@ if [ ! -f "/mnt/config/transmission/settings.json" ]; then
 fi
 
 if [ ! -f "/mnt/config/transmission/transmission_trakcer_add_auto.sh" ]; then
-    cp /.aria2allinoneworkdir/transmission_tracker_add_auto.sh /mnt/config/transmission/transmission_trakcer_add_auto.sh
+    cp /.aria2allinoneworkdir/transmission_tracker_add_auto.sh /mnt/config/transmission/transmission_tracker_add_auto.sh
 fi
 
 tmp=$(mktemp)
