@@ -50,7 +50,7 @@ docker restart allinone
 docker exec allinone yt-dlp
 # 可以使用alias设置别名方便使用：  
 alias dlpr="docker exec allinone yt-dlp --exec ytdlptorclone.sh -P /mnt/data/videos"
-# 下载到/mnt/data/videos目录并与rclone联动，注意要用容器内部路径，不是主机路径。
+# 下载到/mnt/data/videos目录并与rclone联动，受POST_MODE变量控制。注意要用容器内部路径，不是主机路径。
 dlpr https://www.youtube.com/watch?v=rbDzVzBsbGM
 ```   
  2. 考虑安全原因Filebrowser初始用户无管理员权限，如需要管理员权限，执行下列命令：
