@@ -65,10 +65,10 @@ services:
       RCLONE_ADDR: http://localhost:56802
       # Rclone Remote Control地址，默认值适用于host网络模式。
       # 如果使用bridge网络模式，需要改为"http://rclone:5572"。
-      YTDL_OPTIONS: "{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptorclone.sh\"}]}"
+      YTDL_OPTIONS: "{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptorclone.sh\"}],\"noprogress\":true}"
       # metube下载视频所使用的yt-dlp参数，默认值下载完成后发送任务到rclone，受POST_MODE变量控制。详见：https://github.com/alexta69/metube#configuration-via-environment-variables
       # 个别标题有特殊字符的视频metube下载后rclone可能无法上传，需要在YTDL_OPTIONS变量中添加："restrictfilenames":true
-      YTDL_OUTPUT_TEMPLATE: "%(title)s_%(uploader)s.%(ext)s"
+      YTDL_OUTPUT_TEMPLATE: "%(webpage_url_domain)s_%(title)s_%(uploader)s.%(ext)s"
       # Metube下载输出文件名格式，详见：https://github.com/yt-dlp/yt-dlp#output-template
   rclone_daemon:
     <<: *global
