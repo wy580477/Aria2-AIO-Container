@@ -20,7 +20,7 @@ if [ "${POST_MODE}" = "dummy" ]; then
 elif [ "${POST_MODE}" = "move" ]; then
     sed -i "s|MODE_STATUS|<br />Aria Event Hook mode:<br />[move] Move files to local finished folder after download completed</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 elif [ "${POST_MODE}" = "custom" ]; then
-    sed -i "s|<br />Delete unwanted files: MESSAGE2<br />Delete files of failed or removed task: MESSAGE1MODE_STATUS|<br />Aria2 Event Hook mode: [custom] </b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
+    sed -i "s|MODE_STATUS|<br />Aria2 Event Hook mode: [custom] </b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 elif [ ! -f "/mnt/config/rclone.conf" ]; then
     sed -i "s|MODE_STATUS|<br />Aria Event Hook mode:<br />rclone.conf file not found in config dir</b>|g" /.aria2allinoneworkdir/homer/assets/config.yml
 elif [ "${POST_MODE}" = "copy_remote" ]; then
