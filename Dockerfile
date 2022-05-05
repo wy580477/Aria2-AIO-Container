@@ -2,8 +2,6 @@ FROM python:alpine
 
 COPY ./content /.aria2allinoneworkdir/
 
-ARG MODE=build
-
 ENV USER=admin
 ENV PASSWORD=password
 ENV DOMAIN=http://localhost
