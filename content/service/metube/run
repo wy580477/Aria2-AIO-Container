@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# Dummy run for building image
-if [ "${MODE}" = "build" ]; then
-    sleep infinity
-fi
-
 # Configure & run metube
 mkdir -p /mnt/data/videos 2>/dev/null
 OUTPUT_TEMPLATE="${YTDL_OUTPUT_TEMPLATE}"

@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# Dummy run for building image
-if [ "${MODE}" = "build" ]; then
-    sleep infinity
-fi
-
 # Configure filebrowser
 if [ ! -f "/mnt/config/filebrowser.db" ]; then
     filebrowser -d /mnt/config/filebrowser.db config init -r /mnt

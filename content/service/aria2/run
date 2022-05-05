@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# Dummy run for building image
-if [ "${MODE}" = "build" ]; then
-       sleep infinity
-fi
-
 # Configure aria2
 if [ ! -d "/mnt/config/aria2" ]; then
        mkdir -p /mnt/config/aria2
