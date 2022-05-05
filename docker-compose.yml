@@ -51,7 +51,7 @@ services:
       # 导航页路径和所有Web服务基础URL，不能为空值和"/"，后面不能加"/"。建议设置为不常见的字符串，防止字典爆破攻击。
       ARIA_IPV6: "false"
       # Aria2下载功能和DHT网络ipv6开关，不影响其他进程使用ipv6网络。设置为"true"开启ipv6。
-      POST_MODE: move_remote
+      POST_MODE: move
       # Rclone自动化模式，dummy模式为无操作，move模式为Aria2下载及做种完成后移动到本地finished目录。
       # move_remote模式为Aria2下载及做种完成后先移动到本地data数据卷下finished目录，然后移动到rclone远程存储。
       # move_remote_only模式为Aria2下载及做种完成后移动到rclone原创存储。
