@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Dummy run for building image
+if [ "${MODE}" = "build" ]; then
+  sleep infinity
+fi
+
 # Unzip homer & AriaNG & RcloneWebUI
 if [ ! -d "/.aria2allinoneworkdir/homer" ]; then
   unzip -d /.aria2allinoneworkdir/homer /.aria2allinoneworkdir/homer.zip 1>/dev/null
@@ -34,8 +39,10 @@ if [ ! -f "/mnt/config/caddy/Caddyfile" ]; then
   cp /.aria2allinoneworkdir/Caddyfile_template /mnt/config/caddy/Caddyfile
 fi
 
+cp /mnt/config/caddy/Caddyfile /.aria2allinoneworkdir/Caddyfile
 HASH="$(caddy hash-password --plaintext ${PASSWORD})"
+sed -i "s|HASH|${HASH}|g" /.aria2allinoneworkdir/Caddyfile
 
 # Run caddy
 exec 2>&1
-exec caddy run --config /mnt/config/caddy/Caddyfile --adapter caddyfile
+exec caddy run --config /.aria2allinoneworkdir/Caddyfile --adapter caddyfile

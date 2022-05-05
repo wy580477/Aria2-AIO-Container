@@ -13,7 +13,8 @@ handle {$PORTAL_PATH}/ariang* {
         redir {$PORTAL_PATH}/ariang {$PORTAL_PATH}/ariang/         
         uri strip_prefix {$PORTAL_PATH}/ariang
         basicauth {
-                {$USER} {$HASH}
+                {$USER} HASH
+        }
         root * /.aria2allinoneworkdir/ariang
         file_server
 }
@@ -22,7 +23,7 @@ handle {$PORTAL_PATH}/rcloneweb* {
         redir {$PORTAL_PATH}/rcloneweb {$PORTAL_PATH}/rcloneweb/         
         uri strip_prefix {$PORTAL_PATH}/rcloneweb
         basicauth {
-                {$USER} {$HASH}
+                {$USER} HASH
         }
         root * /.aria2allinoneworkdir/rcloneweb/build
         file_server
@@ -49,7 +50,7 @@ handle {$PORTAL_PATH}* {
         redir {$PORTAL_PATH} {$PORTAL_PATH}/         
         uri strip_prefix {$PORTAL_PATH}
         basicauth {              
-                {$USER} {$HASH}
+                {$USER} HASH
         }
         root * /.aria2allinoneworkdir/homer
         file_server
