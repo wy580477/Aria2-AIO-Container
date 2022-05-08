@@ -1,0 +1,85 @@
+version: '3.4'
+x-env:
+# Global envs
+  environment: &env
+    USER: admin
+    # Username for all web services.
+    PASSWORD: password
+    # Password for all web services, double as Aria2 RPC token. Recommend strong password.
+    PUID: 0
+    PGID: 0
+    # If you are running container as an unprivileged user, pay attention to permissions of volumes.
+    TZ: Asia/Shanghai
+    # Timezone
+x-global: &global
+# Other global options
+  volumes:
+    - ./data:/mnt/data
+    # Volume for storing downloaded data.
+    - ./config:/mnt/config
+    # Volume for storing config files.
+  restart: unless-stopped
+  network_mode: host
+  logging:
+    driver: "journald"
+    options:
+      tag: "{{.Name}}"
+services:
+  allinone:
+    <<: *global
+    image: ghcr.io/wy580477/aria2-aio-container:latest
+    container_name: allinone
+    environment:
+      <<: *env
+      DOMAIN:
+      # If value is set to a valid domain name (it can be resolved to your host) and port 80 is open to internet, caddy's auto-https function will be enabled.
+      # Set value to http://localhost, http service is provided at local loopback address.
+      # If you set value to blank, http service will open to external IP.This is not recommended other than using in home LAN.
+      EMAIL: internal
+      # Email address for receiving notification emails from certification authority, you can use fake address.
+      # If set to "internal", caddy will use self-signed cert.
+      WEB_PORT: 443
+      # Port for web services. If you want to disable auto-https from caddy, set to non-443 port.
+      LANGUAGE: en
+      PORTAL_PATH: /portal
+      # Portal page & base URL for all web services. Do not set to blank or '/'
+      ARIA_IPV6: "false"
+      # If you want to enable IPv6 support in Aria2, set value to "true".
+      POST_MODE: move
+      # Rclone auto-upload mode, dummy: Do nothing，move: Move files to local finished folder after Aria2 download & seeding completed.
+      # move_remote: Move files to local finished folder after Aria2 download & seeding completed，then move to Rclone remote storage.
+      # move_remote_only: Move files to Rclone remote storage after Aria2 download & seeding completed.
+      # copy_remote_first: Copy files to Rclone remote storage after Aria2 download completed, triggered before seeding for bittorrent tasks.
+      # copy_remote: Copy files to Rclone remote storage after Aria2 download & seeding completed.
+      # custom: set Aria2 Event Hook options in aria2 configure file by yourself.
+      # Under move_remote & move_remote_only modes, videos downloaded by mutube will be moved to Rclone remote storage.
+      # Under copy_remote & copy_remote_first modes, videos downloaded by mutube will be copied to Rclone remote storage.
+      AUTO_DRIVE_NAME: "true"
+      # If set to true, Rclone remote name which is used for auto-upload will be extracted from the first line of rclone config file.
+      # Otherwise you need to specify Rclone remote name in script.conf file under config folder.
+      RCLONE_ADDR: http://localhost:56802
+      # Rclone Remote Control address, default value is for host network mode.
+      # Set value to "http://rclone:5572" if you are using bridge network mode.
+      YTDL_OPTIONS: "{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptorclone.sh\"}],\"noprogress\":true}"
+      # metube yt-dlp options. Default value will send job to rclone according to RCLONE_AUTO_MODE after download completed. For more information: https://github.com/alexta69/metube#configuration-via-environment-variables
+      # Rclone may fail to upload some videos with special characters in title, add following in the YTDL_OPTIONS env: "restrictfilenames":true
+      YTDL_OUTPUT_TEMPLATE: "%(webpage_url_domain)s_%(title)s_%(uploader)s.%(ext)s"
+      # metube yt-dlp output filename template. For more information: https://github.com/yt-dlp/yt-dlp#output-template
+  rclone_daemon:
+    <<: *global
+    image: ghcr.io/wy580477/rclone-daemon-container:latest
+    container_name: rclone_daemon
+    hostname: rclone
+    environment:
+      <<: *env
+    command:
+      - --rc-serve
+      - --rc-addr=localhost:56802
+      # Default setting is for host network mode. Set to ":5572" if you are using bridge network mode.
+      - --config /mnt/config/rclone.conf
+      - --rc-allow-origin=*
+      - --use-mmap
+      - --buffer-size 4M
+      - --transfers 4
+    # - --copy-links
+      # For more options: https://rclone.org/flags/
