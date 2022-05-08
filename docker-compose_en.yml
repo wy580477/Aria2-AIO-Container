@@ -27,7 +27,7 @@ x-global: &global
 services:
   allinone:
     <<: *global
-    image: ghcr.io/wy580477/aria2-aio-container:latest
+    image: ghcr.io/wy580477/aria2-aio-container:lite
     container_name: allinone
     environment:
       <<: *env
