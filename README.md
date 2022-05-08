@@ -1,4 +1,4 @@
-[Click here for English version](https://github.com/wy580477/Aria2-AIO-Container/blob/main/README_en.md)
+[Click here for English version](https://github.com/wy580477/Aria2-AIO-Container/blob/master/README_en.md)
 
 ## 鸣谢
 
