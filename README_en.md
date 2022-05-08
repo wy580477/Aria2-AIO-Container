@@ -39,7 +39,6 @@ This version still has yt-dlp and only costs 40MB memory while idling.
  10. All configurations are stored in config data volume for easy migration.
  11. [runit](http://smarden.org/runit/index.html)-based process management, each service can be started and stopped independently.
  12. Support using PUID/GUID env to run processes in container under non-root users.
- The standalone container runs in daemon mode, which is convenient for monitoring transmissions on the WebUI in real time, and can customize the running parameters in the docker-compose file.
 
 ## <a id="Deployment"></a>Deployment
 
