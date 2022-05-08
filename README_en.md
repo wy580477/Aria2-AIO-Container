@@ -23,7 +23,7 @@ This project integrates yt-dlp, Aria2 + WebUI, Rclone + WebUI with auto-upload f
 
 [Heroku version](https://github.com/wy580477/Heroku-All-In-One-APP)
 
-![image](https://user-images.githubusercontent.com/98247050/167285865-fd8a02bc-fb45-4d8f-a363-29860032df67.png)
+![image](https://user-images.githubusercontent.com/98247050/167286996-b0fe45dd-af86-45ff-bac3-8c490854982a.png)
 
  1. Rclone auto-upload function only needs to prepare rclone.conf file, and all other configurations are set to go.
  2. AMD64/x86/Arm64/Armv7 multi-architecture support.
