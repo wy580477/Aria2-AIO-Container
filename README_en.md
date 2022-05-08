@@ -25,7 +25,7 @@ This version still has yt-dlp and only costs 40MB memory while idling.
 
 [Heroku version](https://github.com/wy580477/Heroku-All-In-One-APP)
 
-![image](https://user-images.githubusercontent.com/98247050/165260584-764dbf11-55e7-44c1-a303-bf60aff62b6b.png)
+![image](https://user-images.githubusercontent.com/98247050/167285865-fd8a02bc-fb45-4d8f-a363-29860032df67.png)
 
  1. Rclone auto-upload function only needs to prepare rclone.conf file, and all other configurations are set to go.
  2. AMD64/Arm64/Armv7 multi-architecture support.
