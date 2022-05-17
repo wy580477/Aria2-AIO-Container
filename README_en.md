@@ -37,7 +37,6 @@ This project integrates yt-dlp, Aria2 + WebUI, Rclone + WebUI with auto-upload f
  10. [runit](http://smarden.org/runit/index.html)-based process management, each service can be started and stopped independently.
  11. Support using PUID/GUID env to run processes in container under non-root users.
 
-
 ## <a id="Deployment"></a>Deployment
 
  1. Download [docker-compose file](https://raw.githubusercontent.com/wy580477/Aria2-AIO-Container/lite/docker-compose_en.yml)
