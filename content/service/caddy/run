@@ -4,10 +4,10 @@
 if [ ! -d "/.aria2allinoneworkdir/homer" ]; then
   unzip -d /.aria2allinoneworkdir/homer /.aria2allinoneworkdir/homer.zip 1>/dev/null
   rm -rf /.aria2allinoneworkdir/homer.zip
-  unzip -d /.aria2allinoneworkdir/ariang /.aria2allinoneworkdir/AriaNg-1.2.3.zip 1>/dev/null
-  sed -i 's|6800|'"${WEB_PORT}"'|g' /.aria2allinoneworkdir/ariang/js/aria-ng-f1dd57abb9.min.js
-  sed -i 's|rpcInterface:"jsonrpc"|rpcInterface:"'"${PORTAL_PATH/\//}"'/jsonrpc"|g' /.aria2allinoneworkdir/ariang/js/aria-ng-f1dd57abb9.min.js
-  rm -rf /.aria2allinoneworkdir/AriaNg-1.2.3.zip
+  unzip -d /.aria2allinoneworkdir/ariang /.aria2allinoneworkdir/AriaNg-1.2.4.zip 1>/dev/null
+  sed -i 's|6800|'"${WEB_PORT}"'|g' /.aria2allinoneworkdir/ariang/js/aria-ng-a87a79b0e7.min.js
+  sed -i 's|rpcInterface:"jsonrpc"|rpcInterface:"'"${PORTAL_PATH/\//}"'/jsonrpc"|g' /.aria2allinoneworkdir/ariang/js/aria-ng-a87a79b0e7.min.js
+  rm -rf /.aria2allinoneworkdir/AriaNg-1.2.4.zip
   unzip -d /.aria2allinoneworkdir/rcloneweb /.aria2allinoneworkdir/currentbuild.zip 1>/dev/null
   sed -i 's|ipAddress:a|ipAddress:`${window.location.protocol}//${window.location.hostname}:'"${WEB_PORT}"''"${PORTAL_PATH}"'/rclonerc`|g' /.aria2allinoneworkdir/rcloneweb/build/static/js/3.90421092.chunk.js
   rm -rf /.aria2allinoneworkdir/currentbuild.zip

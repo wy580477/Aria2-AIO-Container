@@ -23,7 +23,7 @@ ENV YTDL_OPTIONS="{\"postprocessors\":[{\"key\":\"Exec\",\"exec_cmd\":\"ytdlptor
 ENV YTDL_OUTPUT_TEMPLATE="%(title)s_%(uploader)s.%(ext)s"
 
 RUN apk add --no-cache curl caddy jq aria2 bash findutils runit su-exec tzdata \
-    && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.3/AriaNg-1.2.3.zip \
+    && wget -P /.aria2allinoneworkdir https://github.com/mayswind/AriaNg/releases/download/1.2.4/AriaNg-1.2.4.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/rclone/rclone-webui-react/releases/download/v2.0.5/currentbuild.zip \
     && wget -P /.aria2allinoneworkdir https://github.com/bastienwirtz/homer/releases/latest/download/homer.zip \
     && curl -fsSL https://raw.githubusercontent.com/wy580477/filebrowser-install/master/get.sh | bash \
