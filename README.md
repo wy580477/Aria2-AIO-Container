@@ -17,7 +17,7 @@
 
 [Aria2独立容器精简版本传送门](https://github.com/wy580477/Aria2-Container-for-Rclone)
 
-[Heroku版本传送门](https://github.com/wy580477/Heroku-All-In-One-APP)
+[Heroku版本传送门](https://github.com/wy580477/Heroku-AIO-APP-EX)
 
 ![image](https://user-images.githubusercontent.com/98247050/165260584-764dbf11-55e7-44c1-a303-bf60aff62b6b.png)
 
