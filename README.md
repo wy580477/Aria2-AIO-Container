@@ -1,3 +1,8 @@
+**Unmaintained repo | 停止维护**  
+
+**新项目 | Checkout [Leech-AIO-APP-EX](https://github.com/wy580477/Leech-AIO-APP-EX)**
+
+
 [Click here for English version](https://github.com/wy580477/Aria2-AIO-Container/blob/master/README_en.md)
 
 ## 鸣谢
